@@ -3,11 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 export const counterSlice = createSlice({
   name: 'counter',
   initialState: {
-    value: 0
+    collection:[{city:"p"}],
+    searchValue: "aaa"
   },
   reducers: {
-    increment: state => {
-      state.value += 1
+    putCollection:(state,action)=>{
+      state.collection=action.payload
+    },
+    putSearchValue: (state,action) => {
+      state.searchValue=action.payload
     },
     decrement: state => {
       state.value -= 1
@@ -18,6 +22,6 @@ export const counterSlice = createSlice({
   }
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { putCollection,putSearchValue, decrement, incrementByAmount } = counterSlice.actions
 
 export default counterSlice.reducer

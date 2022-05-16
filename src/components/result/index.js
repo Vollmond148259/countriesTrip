@@ -1,15 +1,21 @@
-import React,{useState,useEffect} from "react";
+import React, {useState, useEffect, useDeferredValue} from "react";
 import {Typography, Grid, Button,Stack,Box} from "@mui/material";
+import {useSelector,useDispatch} from "react-redux"
+import {putCollection} from "../../redux/slice/slice"
 import Papa from "papaparse"
 
 function Result(){
   const [countries,setCountries]=useState([{},{}])
+  const searchingValue=useSelector((state)=>state.counter.searchValue)
+  const allCollection=useSelector((state)=>state.counter.collection)
+  const defferedValue=useDeferredValue(searchingValue)
+  console.log(allCollection)
+  const dispatch=useDispatch()
 
   function filtered(array,value){
-    const tempArray=[null]
-    array.map((arr,key)=>{
-      console.log("start map")
-      if(arr.city.indexOf(value)!==-1) {
+    const tempArray=[1]
+    array.map((arr)=>{
+      if((arr.city.indexOf(value)!==-1)) {
        tempArray.push(arr)
       }
     })
@@ -22,11 +28,15 @@ function Result(){
     const response = await fetch("https://gist.githubusercontent.com/curran/13d30e855d48cdd6f22acdf0afe27286/raw/0635f14817ec634833bb904a47594cc2f5f9dbf8/worldcities_clean.csv")
     const data = await response.text()
 const parsedData=Papa.parse(data,{header:true})
-    console.log(filtered(parsedData.data,"se"))
+    dispatch(putCollection(parsedData.data))
   }
   useEffect(()=>{
 getCountries()
   },[])
+  useEffect(()=>{
+    setCountries(filtered(allCollection,defferedValue))
+  },[defferedValue])
+
 
   return(
     <>
