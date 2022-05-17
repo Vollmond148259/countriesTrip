@@ -9,7 +9,6 @@ function Home() {
       <Provider store={store}>
         <Container>
           <Search />
-          <Search />
           <Result />
         </Container>
       </Provider>

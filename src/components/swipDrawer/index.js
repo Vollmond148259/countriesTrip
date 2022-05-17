@@ -12,7 +12,6 @@ export default function SwipDrawer({showModal,setShowModal}) {
       onClick={()=>setShowModal(false)}
       onKeyDown={()=>setShowModal(false)}
     >
- <MyMapComponent/>
     </Box>
   );
 
@@ -26,6 +25,7 @@ export default function SwipDrawer({showModal,setShowModal}) {
             onOpen={()=>setShowModal(true)}
           >
             {list(anchor)}
+            <MyMapComponent lat={"59.95"} lng={"33.33"} zoom={11}/>
           </SwipeableDrawer>
     </div>
   );

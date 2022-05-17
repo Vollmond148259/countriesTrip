@@ -6,7 +6,7 @@ export function Search() {
   const dispatch = useDispatch();
   return (
     <Grid mt={5} container spacing={2}>
-      <Grid sx={{ border: "2px solid red" }} item xs={8}>
+      <Grid item xs={8}>
         <TextField
           onChange={() => {
             dispatch(putSearchValue(event.target.value));
@@ -17,7 +17,7 @@ export function Search() {
           variant="outlined"
         />
       </Grid>
-      <Grid item xs={3} sx={{ border: "2px solid red" }}>
+      <Grid item xs={3}>
         <Stack direction="column">
           <Button variant="contained">get filtered countries</Button>
         </Stack>

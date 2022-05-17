@@ -5,24 +5,32 @@ import {putCollection} from "../../redux/slice/slice"
 import SwipDrawer from "../swipDrawer"
 import Papa from "papaparse"
 import ListItem from '@mui/material/ListItem';
+//import Checkbox from '@mui/material/Checkbox';
 import ListItemButton from '@mui/material/ListItemButton';
+import {putFavoriteCities} from "../../redux/slice/slice"
 import { FixedSizeList} from 'react-window';
+import ShowFavorite from "../result/showFavorite"
 
 function Result(){
   const [countries,setCountries]=useState([{},{}])
   const [showModal,setShowModal]=useState(false)
+  const [showFavor,setShowFavor]=useState(false)
   const searchingValue=useSelector((state)=>state.counter.searchValue)
   const allCollection=useSelector((state)=>state.counter.collection)
   const defferedValue=useDeferredValue(searchingValue)
   const dispatch=useDispatch()
+  const favoriteCities=useSelector((state)=>state.counter.favoriteCollection)
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-  function renderRow(props) {
-    const { index, style } = props;
+  function renderRow({index,style}) {
+
     return (
-      <ListItem style={style} key={index+1} component="div" disablePadding>
-        <ListItemButton>
+      <ListItem style={style} key={index} component="div" disablePadding>
+        <ListItemButton onClick={()=>dispatch(putFavoriteCities(countries[index]))} >
           <Stack direction="column">
+            <Stack direction="row">
           <Typography variant="h4">{countries[index].city}</Typography>
+            </Stack>
             <Stack direction="row" spacing={2}>
               <Typography variant="h5">{countries[index].population}</Typography>
               <Typography variant="h5">{countries[index].country}</Typography>
@@ -33,9 +41,8 @@ function Result(){
     );
   }
 
-
   function filtered(array,value){
-    const tempArray=[1]
+    const tempArray=[]
     array.map((arr)=>{
       if((arr.city.indexOf(value)!==-1)||(arr.country.indexOf(value)!==-1)) {
        tempArray.push(arr)
@@ -59,6 +66,9 @@ getCountries()
     setCountries(filtered(allCollection,defferedValue))
   },[defferedValue])
 
+  useEffect(()=>{
+    console.log(favoriteCities)
+  },[favoriteCities])
 
   return(
     <>
@@ -81,8 +91,9 @@ getCountries()
         <Grid item xs={3}>
           <Stack direction="column" spacing={2}>
             <Button onClick={()=>setShowModal(true)}  variant="contained">see on maps</Button>
-            <Button  variant="contained">i want to visit</Button>
+            <Button onClick={()=>setShowFavor(!showFavor)} variant="contained">i want to visit</Button>
           </Stack>
+          {showFavor && <ShowFavorite/>}
         </Grid>
       </Grid>
 <SwipDrawer showModal={showModal} setShowModal={setShowModal}/>
