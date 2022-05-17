@@ -2,20 +2,42 @@ import React, {useState, useEffect, useDeferredValue} from "react";
 import {Typography, Grid, Button,Stack,Box} from "@mui/material";
 import {useSelector,useDispatch} from "react-redux"
 import {putCollection} from "../../redux/slice/slice"
+import SwipDrawer from "../swipDrawer"
 import Papa from "papaparse"
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import { FixedSizeList} from 'react-window';
 
 function Result(){
   const [countries,setCountries]=useState([{},{}])
+  const [showModal,setShowModal]=useState(false)
   const searchingValue=useSelector((state)=>state.counter.searchValue)
   const allCollection=useSelector((state)=>state.counter.collection)
   const defferedValue=useDeferredValue(searchingValue)
-  console.log(allCollection)
   const dispatch=useDispatch()
+
+  function renderRow(props) {
+    const { index, style } = props;
+    return (
+      <ListItem style={style} key={index+1} component="div" disablePadding>
+        <ListItemButton>
+          <Stack direction="column">
+          <Typography variant="h4">{countries[index].city}</Typography>
+            <Stack direction="row" spacing={2}>
+              <Typography variant="h5">{countries[index].population}</Typography>
+              <Typography variant="h5">{countries[index].country}</Typography>
+            </Stack>
+          </Stack>
+        </ListItemButton>
+      </ListItem>
+    );
+  }
+
 
   function filtered(array,value){
     const tempArray=[1]
     array.map((arr)=>{
-      if((arr.city.indexOf(value)!==-1)) {
+      if((arr.city.indexOf(value)!==-1)||(arr.country.indexOf(value)!==-1)) {
        tempArray.push(arr)
       }
     })
@@ -42,33 +64,28 @@ getCountries()
     <>
       <Grid mt={1} container spacing={2}>
         <Grid item xs={8}>
-          <Box>
-            {countries.map((country,key)=>
-              <Box>
-                <Box pl={3} key={key}>
-                  <Typography variant="h5">{country.city}</Typography>
-                </Box>
-                <Stack direction="row" spacing={2}>
-                  <Box>
-                    <Typography variant="h6">{country.population}</Typography>
-                    </Box>
-                  <Box>
-                    <Typography variant="h6">{country.country}</Typography>
-                  </Box>
-                </Stack>
+              <Box
+              sx={{ width: '100%', height: 640, maxWidth:700, bgcolor: 'background.paper' }}
+              >
+              <FixedSizeList
+              height={640}
+              width={700}
+              itemSize={80}
+              itemCount={countries.length}
+              overscanCount={5}
+              >
+            {countries && renderRow}
+              </FixedSizeList>
               </Box>
-
-            )}
-          </Box>
         </Grid>
         <Grid item xs={3}>
           <Stack direction="column" spacing={2}>
-            <Button  variant="contained">see on maps</Button>
+            <Button onClick={()=>setShowModal(true)}  variant="contained">see on maps</Button>
             <Button  variant="contained">i want to visit</Button>
           </Stack>
         </Grid>
       </Grid>
-
+<SwipDrawer showModal={showModal} setShowModal={setShowModal}/>
     </>
   )
 }
