@@ -1,25 +1,32 @@
 import React from 'react'
-import {Box} from "@mui/material"
-import GoogleMapReact from 'google-map-react';
+import { Map,Marker, GoogleApiWrapper } from 'google-maps-react';
 
-function MyMapComponent({lat,lng,zoom}){
-  const AnyReactComponent = ({ text }) => <div>{text}</div>;
+function Maps(){
+  const mapStyles = {
+    width: "100%",
+    height: "100%",
+  };
+  const containerStyle = {
+    position: 'relative',
+    width: '100%',
+    height: '40vh'
+  }
   return(
     <>
-      <Box height={"40vh"} width={"100%"}>
-        <GoogleMapReact
-          bootstrapURLKeys={{key:"AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M"}}
-          defaultCenter={[lat,lng]}
-          defaultZoom={zoom}
-        >
-          <AnyReactComponent
-            lat={lat}
-            lng={lng}
-            text="My Marker"
-          />
-        </GoogleMapReact>
-      </Box>
+        <Map
+          google={window.google}
+          containerStyle={containerStyle}
+          zoom={1}
+          style={mapStyles}
+          initialCenter={{ lat: 9.761927, lng: 79.95244 }}
+        />
+      <Marker
+        title={'The marker`s title will appear as a tooltip.'}
+        name={'SOMA'}
+        position={{lat: 37.778519, lng: 122.405640}} />
     </>
     )
 }
-export default MyMapComponent
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M'
+})(Maps);
