@@ -3,6 +3,7 @@ import Result from "../src/components/result";
 import store from "../src/redux/store";
 import { Provider } from "react-redux";
 import { Container } from "@mui/material";
+import Test from "../src/components/test"
 function Home() {
   return (
     <>
@@ -10,6 +11,7 @@ function Home() {
         <Container>
           <Search />
           <Result />
+          <Test/>
         </Container>
       </Provider>
     </>
