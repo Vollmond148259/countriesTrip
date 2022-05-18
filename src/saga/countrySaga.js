@@ -1,9 +1,10 @@
-import {put,takeLatest} from "redux-saga/effects"
-import {useSelector} from "react-redux"
-import {putTestValue,tryGetValue} from "../redux/slice/countTest"
+import {put,takeLatest,call} from "redux-saga/effects"
+//import {useSelector} from "react-redux"
+import fetchArray from "./api"
+import {dataLoading, putTestValue, putTestCollection,tryGetValue} from "../redux/slice/countTest"
 
 const delay=(ms)=>new Promise(res=>setTimeout(res, ms))
-
+///worker
 function * putCountWorker(){
 yield delay(500)
   console.log("heeelllloeon")
@@ -12,4 +13,19 @@ yield delay(500)
 export function * countWatcher(){
 yield takeLatest(tryGetValue,putCountWorker)
 }
+///watcher
+///worker
+function * tryGetCountries(){
+  try{
+    const response=yield call(fetchArray())
+
+  }
+  catch{
+    console.log("error")
+  }
+}
+export function * countryWatcher(){
+  yield takeLatest(dataLoading,tryGetCountries)
+}
+
 
