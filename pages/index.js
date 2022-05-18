@@ -3,14 +3,15 @@ import Result from "../src/components/result";
 import store from "../src/redux/store";
 import { Provider } from "react-redux";
 import { Container } from "@mui/material";
+import Test from "../src/components/test"
 function Home() {
   return (
     <>
       <Provider store={store}>
         <Container>
           <Search />
-          <Search />
           <Result />
+          <Test/>
         </Container>
       </Provider>
     </>
