@@ -8,7 +8,7 @@ function MyMapComponent({lat,lng,zoom}){
     <>
       <Box height={"40vh"} width={"100%"}>
         <GoogleMapReact
-          //bootstrapURLKeys={{key:"AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M" }}
+          bootstrapURLKeys={{key:"AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M"}}
           defaultCenter={[lat,lng]}
           defaultZoom={zoom}
         >
