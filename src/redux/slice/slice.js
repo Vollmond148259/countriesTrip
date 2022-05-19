@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
+import reject from "lodash/reject"
 
 export const counterSlice = createSlice({
   name: "counter",
   initialState: {
-    favoriteCollection: [{ city: "no", country: "country" }],
-    showCollection: [{ city: "no", country: "country" }],
-    collection: [{ city: "p", country: "us" }],
+    favoriteCollection: [],
+    showCollection: [{city: "no", country: "country"}],
+    collection: [{city: "p", country: "us"}],
     searchValue: "a",
   },
   reducers: {
@@ -18,6 +19,9 @@ export const counterSlice = createSlice({
     putFavoriteCities: (state, action) => {
       state.favoriteCollection.push(action.payload);
     },
+    removeFavoriteCities: (state, action) => {
+      state.favoriteCollection = reject(state.favoriteCollection, action.payload)
+    },
     putShowCollection: (state, action) => {
       state.showCollection = action.payload;
     },
@@ -28,6 +32,7 @@ export const {
   putCollection,
   putSearchValue,
   putFavoriteCities,
+  removeFavoriteCities,
   putShowCollection,
 } = counterSlice.actions;
 

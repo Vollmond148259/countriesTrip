@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { TextField, Grid, Button, Stack } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { putSearchValue, putShowCollection } from "../../redux/slice/slice";
+import React, {useState} from "react";
+import {Button, Grid, Stack, TextField} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import Result from "../result"
+import {putSearchValue, putShowCollection} from "../../redux/slice/slice";
+import FavoriteResult from "../favoriteResult"
 
 export function Search() {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ export function Search() {
         <Stack direction="column">
           {toggleButton ? (
             <Button
-              sx={{ height: "55px" }}
+              sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(favoriteCities));
                 setToggleButton(!toggleButton);
@@ -38,7 +40,7 @@ export function Search() {
             </Button>
           ) : (
             <Button
-              sx={{ height: "55px" }}
+              sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(allCities));
                 setToggleButton(!toggleButton);
@@ -50,7 +52,9 @@ export function Search() {
           )}
         </Stack>
       </Grid>
+      {toggleButton ? <Result/> : <FavoriteResult/>}
     </Grid>
   );
 }
+
 export default Search;
