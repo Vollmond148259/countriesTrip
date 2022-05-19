@@ -3,7 +3,6 @@ import {Button, Grid, Stack, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import Result from "../result"
 import {putSearchValue, putShowCollection} from "../../redux/slice/slice";
-import FavoriteResult from "../favoriteResult"
 
 export function Search() {
   const dispatch = useDispatch();
@@ -16,6 +15,7 @@ export function Search() {
     <Grid mt={5} container spacing={2}>
       <Grid item xs={8}>
         <TextField
+          disabled={!toggleButton}
           onChange={() => {
             dispatch(putSearchValue(event.target.value));
           }}
@@ -52,7 +52,7 @@ export function Search() {
           )}
         </Stack>
       </Grid>
-      {toggleButton ? <Result/> : <FavoriteResult/>}
+      <Result showFavorite={toggleButton}/>
     </Grid>
   );
 }

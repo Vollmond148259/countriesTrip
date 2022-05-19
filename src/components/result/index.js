@@ -1,14 +1,14 @@
 import React, {useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {putCollection, putFavoriteCities, putShowCollection} from "../../redux/slice/slice";
+import {putCollection, putFavoriteCities, putShowCollection, removeFavoriteCities} from "../../redux/slice/slice";
 import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import {FixedSizeList} from "react-window";
 
-function Result() {
+function Result({showFavorite}) {
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
@@ -38,12 +38,20 @@ function Result() {
           }} variant="contained">
             see on maps
           </Button>
-          <Button
-            onClick={() => dispatch(putFavoriteCities(countries[index]))}
-            variant="contained"
-          >
-            i want to visit
-          </Button>
+          {showFavorite ? <Button
+              onClick={() => dispatch(putFavoriteCities(countries[index]))}
+              variant="contained"
+            >
+              i want to visit
+            </Button>
+            :
+            <Button
+              onClick={() => dispatch(removeFavoriteCities(countries[index]))}
+              variant="contained"
+            >
+              delete from list
+            </Button>
+          }
         </Stack>
       </ListItem>
     );
