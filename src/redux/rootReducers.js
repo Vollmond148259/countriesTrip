@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import counter from "./slice/slice";
-import countTest from "../redux/slice/countTest"
+import countTest from "../redux/slice/countTest";
 
 export default combineReducers({
   counter,
