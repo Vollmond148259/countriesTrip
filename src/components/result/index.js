@@ -33,7 +33,9 @@ function Result() {
           </Stack>
         </ListItemButton>
         <Stack direction="column" spacing={1}>
-          <Button onClick={() => setShowModal(true)} variant="contained">
+          <Button onClick={() => {
+            setShowModal(true)
+          }} variant="contained">
             see on maps
           </Button>
           <Button

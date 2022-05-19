@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
+import {GoogleApiWrapper, Map, Marker} from "google-maps-react";
 
 function Maps() {
   const mapStyles = {
@@ -16,18 +16,19 @@ function Maps() {
       <Map
         google={window.google}
         containerStyle={containerStyle}
-        zoom={1}
+        zoom={4}
         style={mapStyles}
-        initialCenter={{ lat: 9.761927, lng: 79.95244 }}
+        initialCenter={{lat: 9.761927, lng: 79.95244}}
       />
       <Marker
         title={"The marker`s title will appear as a tooltip."}
         name={"SOMA"}
-        position={{ lat: 37.778519, lng: 122.40564 }}
+        position={{lat: 37.778519, lng: 122.40564}}
       />
     </>
   );
 }
+
 export default GoogleApiWrapper({
   apiKey: "AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M",
 })(Maps);
