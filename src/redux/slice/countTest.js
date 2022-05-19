@@ -4,7 +4,7 @@ export const counterTestSlice=createSlice({
   name:"countTest",
   initialState:{
     isLoading:false,
-    collection:[{name:"i"}],
+    postCollection:[],
     isLoad:false,
     value:0,
   },
@@ -16,7 +16,7 @@ export const counterTestSlice=createSlice({
       state.isLoad=true
     },
     putTestCollection: (state, action) => {
-      state.collection = action.payload;
+      state.postCollection = action.payload;
       state.isLoading=false
     },
     putTestValue:(state,action)=>{

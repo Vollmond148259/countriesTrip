@@ -1,7 +1,4 @@
 import axios from "axios";
-function fetchArray(){
-  const result=axios.get("https://jsonplaceholder.typicode.com/posts")
-  console.log(result)
-  return(result)
-}
+const fetchArray=()=>axios.get("https://jsonplaceholder.typicode.com/posts")
+
 export default fetchArray

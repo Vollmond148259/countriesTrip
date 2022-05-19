@@ -17,8 +17,9 @@ yield takeLatest(tryGetValue,putCountWorker)
 ///worker
 function * tryGetCountries(){
   try{
-    const response=yield call(fetchArray())
-
+    const response=yield call(fetchArray)
+    const result=response.data
+    yield put(putTestCollection(result))
   }
   catch{
     console.log("error")
