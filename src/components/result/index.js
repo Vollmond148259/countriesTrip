@@ -1,12 +1,20 @@
 import React, {useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {putCollection, putFavoriteCities, putShowCollection, removeFavoriteCities} from "../../redux/slice/slice";
+import {
+  putChoiceCoordinates,
+  putCollection,
+  putFavoriteCities,
+  putShowCollection,
+  removeFavoriteCities
+} from "../../redux/slice/slice";
 import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import {FixedSizeList} from "react-window";
+import {FixedSizeList as List} from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
 
 function Result({showFavorite}) {
   const [showModal, setShowModal] = useState(false);
@@ -34,8 +42,10 @@ function Result({showFavorite}) {
         </ListItemButton>
         <Stack direction="column" spacing={1}>
           <Button onClick={() => {
-            setShowModal(true)
-          }} variant="contained">
+            setShowModal(true);
+            dispatch(putChoiceCoordinates([23.33, 44.44]))
+          }}
+                  variant="contained">
             see on maps
           </Button>
           {showFavorite ? <Button
@@ -87,24 +97,27 @@ function Result({showFavorite}) {
   return (
     <>
       <Grid mt={1} container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <Box
             sx={{
               width: "100%",
-              height: 800,
-              maxWidth: 800,
+              height: "100vh",
+              maxWidth: "100vw",
               bgcolor: "background.paper",
             }}
           >
-            <FixedSizeList
-              height={800}
-              width={800}
-              itemSize={100}
-              itemCount={countries.length}
-              overscanCount={5}
-            >
-              {countries && renderRow}
-            </FixedSizeList>
+            <AutoSizer>
+              {({height, width}) => (
+                <List
+                  height={height}
+                  itemCount={countries.length}
+                  itemSize={100}
+                  width={width}
+                >
+                  {renderRow}
+                </List>
+              )}
+            </AutoSizer>
           </Box>
         </Grid>
       </Grid>

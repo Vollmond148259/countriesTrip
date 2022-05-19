@@ -8,6 +8,7 @@ export const counterSlice = createSlice({
     showCollection: [{city: "no", country: "country"}],
     collection: [{city: "p", country: "us"}],
     searchValue: "a",
+    coordinates: [0, 0],
   },
   reducers: {
     putCollection: (state, action) => {
@@ -25,6 +26,9 @@ export const counterSlice = createSlice({
     putShowCollection: (state, action) => {
       state.showCollection = action.payload;
     },
+    putChoiceCoordinates: (state, action) => {
+      state.coordinates = action.payload;
+    },
   },
 });
 
@@ -34,6 +38,7 @@ export const {
   putFavoriteCities,
   removeFavoriteCities,
   putShowCollection,
+  putChoiceCoordinates,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

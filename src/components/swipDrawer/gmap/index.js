@@ -1,7 +1,9 @@
 import React from "react";
+import {useSelector} from "react-redux"
 import {GoogleApiWrapper, Map, Marker} from "google-maps-react";
 
 function Maps() {
+  const coordinates = useSelector((state) => state.counter.coordinates)
   const mapStyles = {
     width: "100%",
     height: "100%",
@@ -23,7 +25,7 @@ function Maps() {
       <Marker
         title={"The marker`s title will appear as a tooltip."}
         name={"SOMA"}
-        position={{lat: 37.778519, lng: 122.40564}}
+        position={{lat: coordinates[0], lng: coordinates[1]}}
       />
     </>
   );
