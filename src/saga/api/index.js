@@ -1,4 +1,5 @@
 import axios from "axios";
-const fetchArray=()=>axios.get("https://jsonplaceholder.typicode.com/posts")
+const fetchArray = () =>
+  axios.get("https://jsonplaceholder.typicode.com/posts");
 
-export default fetchArray
+export default fetchArray;

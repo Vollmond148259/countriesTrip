@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
-import { Typography, Grid, Button, Stack, Box } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { putCollection, putShowCollection } from "../../redux/slice/slice";
+import React, {useDeferredValue, useEffect, useState} from "react";
+import {Box, Button, Grid, Stack, Typography} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {putCollection, putFavoriteCities, putShowCollection} from "../../redux/slice/slice";
 import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import { putFavoriteCities } from "../../redux/slice/slice";
-import { FixedSizeList } from "react-window";
+import {FixedSizeList} from "react-window";
 
 function Result() {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +16,7 @@ function Result() {
   const defferedValue = useDeferredValue(searchingValue);
   const dispatch = useDispatch();
 
-  function renderRow({ index, style }) {
+  function renderRow({index, style}) {
     return (
       <ListItem style={style} key={index} component="div" disablePadding>
         <ListItemButton>
@@ -63,7 +62,7 @@ function Result() {
       "https://gist.githubusercontent.com/curran/13d30e855d48cdd6f22acdf0afe27286/raw/0635f14817ec634833bb904a47594cc2f5f9dbf8/worldcities_clean.csv"
     );
     const data = await response.text();
-    const parsedData = Papa.parse(data, { header: true });
+    const parsedData = Papa.parse(data, {header: true});
     dispatch(putCollection(parsedData.data));
   };
 
@@ -99,8 +98,9 @@ function Result() {
           </Box>
         </Grid>
       </Grid>
-      <SwipDrawer showModal={showModal} setShowModal={setShowModal} />
+      <SwipDrawer showModal={showModal} setShowModal={setShowModal}/>
     </>
   );
 }
+
 export default Result;
