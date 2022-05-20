@@ -4,7 +4,6 @@ import {useSelector} from "react-redux"
 
 function Maps() {
   const coordinates = useSelector((state) => state.counter.coordinates)
-  console.log("dfsdfsdfsd")
   return (
     <>
       <YMaps>
