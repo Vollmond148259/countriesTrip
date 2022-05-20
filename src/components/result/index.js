@@ -20,6 +20,7 @@ function Result({showFavorite}) {
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
+  const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
   const countries = useSelector((state) => state.counter.showCollection);
   const defferedValue = useDeferredValue(searchingValue);
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function Result({showFavorite}) {
         <Stack direction="column" spacing={1}>
           <Button onClick={() => {
             setShowModal(true);
-            dispatch(putChoiceCoordinates([23.33, 44.44]))
+            dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
           }}
                   variant="contained">
             see on maps
@@ -90,9 +91,14 @@ function Result({showFavorite}) {
     getCountries();
   }, []);
 
-  useEffect(() => {
-    dispatch(putShowCollection(filtered(allCollection, defferedValue)));
-  }, [defferedValue]);
+  showFavorite ? useEffect(() => {
+      dispatch(putShowCollection(filtered(allCollection, defferedValue)));
+    }, [defferedValue])
+    :
+    useEffect(() => {
+      dispatch(putShowCollection(filtered(favoriteCollection, defferedValue)));
+    }, [defferedValue])
+
 
   return (
     <>

@@ -1,36 +1,23 @@
 import React from "react";
+import {Map, Placemark, YMaps} from "react-yandex-maps"
 import {useSelector} from "react-redux"
-import {GoogleApiWrapper, Map, Marker} from "google-maps-react";
 
 function Maps() {
   const coordinates = useSelector((state) => state.counter.coordinates)
-  const mapStyles = {
-    width: "100%",
-    height: "100%",
-  };
-  const containerStyle = {
-    position: "relative",
-    width: "100%",
-    height: "40vh",
-  };
+  console.log("dfsdfsdfsd")
   return (
     <>
-      <Map
-        google={window.google}
-        containerStyle={containerStyle}
-        zoom={4}
-        style={mapStyles}
-        initialCenter={{lat: 9.761927, lng: 79.95244}}
-      />
-      <Marker
-        title={"The marker`s title will appear as a tooltip."}
-        name={"SOMA"}
-        position={{lat: coordinates[0], lng: coordinates[1]}}
-      />
+      <YMaps>
+        <Map
+          width={"100%"}
+          height={350}
+          defaultState={{center: coordinates, zoom: 9}}
+        >
+          <Placemark geometry={coordinates}/>
+        </Map>
+      </YMaps>
     </>
   );
 }
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M",
-})(Maps);
+export default Maps
