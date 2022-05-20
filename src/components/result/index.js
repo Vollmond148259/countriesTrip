@@ -27,46 +27,63 @@ function Result({showFavorite}) {
 
   function renderRow({index, style}) {
     return (
-      <ListItem style={style} key={index} component="div" disablePadding>
+      <ListItem style={style} key={index} component="div">
         <ListItemButton>
           <Stack direction="column">
             <Stack direction="row">
-              <Typography variant="h4">{countries[index].city}</Typography>
+              <Typography variant="h5">{countries[index].city}</Typography>
             </Stack>
-            <Stack direction="row" spacing={2}>
+            <Stack direction={{xs: "column", sm: "row"}} spacing={0.2}>
               <Typography variant="h5">
                 {countries[index].population}
               </Typography>
               <Typography variant="h5">{countries[index].country}</Typography>
             </Stack>
           </Stack>
+
         </ListItemButton>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0.5}>
           <Button onClick={() => {
             setShowModal(true);
             dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
           }}
                   variant="contained">
-            see on maps
+            see on map
           </Button>
           {showFavorite ? <Button
-              onClick={() => dispatch(putFavoriteCities(countries[index]))}
+              onClick={() => checkTheSame(favoriteCollection, countries[index])}
               variant="contained"
             >
-              i want to visit
+              add to list
             </Button>
             :
             <Button
               onClick={() => dispatch(removeFavoriteCities(countries[index]))}
               variant="contained"
             >
-              delete from list
+              move to bin
             </Button>
           }
         </Stack>
       </ListItem>
     );
   }
+
+  function checkTheSame(array, searchingObject) {
+    let flag = false
+    array.map((arr) => {
+      if (arr.city === searchingObject.city) {
+        flag = false
+      } else {
+        flag = true
+      }
+    })
+    if (flag === true) {
+      dispatch(putFavoriteCities(searchingObject))
+    }
+    return flag
+  }
+
 
   function filtered(array, value) {
     const tempArray = [];
@@ -107,7 +124,7 @@ function Result({showFavorite}) {
           <Box
             sx={{
               width: "100%",
-              height: "100vh",
+              height: "80vh",
               maxWidth: "100vw",
               bgcolor: "background.paper",
             }}
@@ -117,7 +134,7 @@ function Result({showFavorite}) {
                 <List
                   height={height}
                   itemCount={countries.length}
-                  itemSize={100}
+                  itemSize={120}
                   width={width}
                 >
                   {renderRow}

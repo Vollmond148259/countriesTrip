@@ -16,6 +16,7 @@ export function Search() {
       <Grid mt={5} container spacing={2}>
         <Grid item xs={8}>
           <TextField
+            autoComplete="off"
             onChange={() => {
               dispatch(putSearchValue(event.target.value));
             }}
@@ -52,8 +53,9 @@ export function Search() {
             )}
           </Stack>
         </Grid>
-        <Result showFavorite={toggleButton}/>
+
       </Grid>
+      <Result showFavorite={toggleButton}/>
     </>
   );
 }
