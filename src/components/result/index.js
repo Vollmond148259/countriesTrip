@@ -33,7 +33,7 @@ function Result({showFavorite}) {
             <Stack direction="row">
               <Typography variant="h5">{countries[index].city}</Typography>
             </Stack>
-            <Stack direction={{xs: "column", sm: "row"}} spacing={0.2}>
+            <Stack direction={{xs: "column", sm: "row"}} spacing={0.3}>
               <Typography variant="h5">
                 {countries[index].population}
               </Typography>
@@ -108,13 +108,9 @@ function Result({showFavorite}) {
     getCountries();
   }, []);
 
-  showFavorite ? useEffect(() => {
-      dispatch(putShowCollection(filtered(allCollection, defferedValue)));
-    }, [defferedValue])
-    :
-    useEffect(() => {
-      dispatch(putShowCollection(filtered(favoriteCollection, defferedValue)));
-    }, [defferedValue])
+  useEffect(() => {
+    dispatch(putShowCollection(filtered(allCollection, defferedValue)));
+  }, [defferedValue])
 
 
   return (
