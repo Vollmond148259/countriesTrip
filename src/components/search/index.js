@@ -10,7 +10,7 @@ export function Search() {
     (state) => state.counter.favoriteCollection
   );
   const allCollection = useSelector((state) => state.counter.collection);
-  const [toggleButton, setToggleButton] = useState(true);
+  const [showFavorite, setShowFavorite] = useState(false);
   return (
     <>
       <Grid mt={5} container spacing={2}>
@@ -28,34 +28,34 @@ export function Search() {
         </Grid>
         <Grid item xs={3}>
           <Stack direction="column">
-            {toggleButton ? (
+            {showFavorite ? (
               <Button
-                sx={{height: "55px"}}
-                onClick={() => {
-                  dispatch(putShowCollection(favoriteCollection));
-                  setToggleButton(!toggleButton);
-                }}
-                variant="contained"
-              >
-                show favorite cities
-              </Button>
+              sx={{height: "55px"}}
+              onClick={() => {
+                dispatch(putShowCollection(allCollection));
+                setShowFavorite(!showFavorite);
+              }}
+              variant="contained"
+            >
+              show all cities
+            </Button>
             ) : (
               <Button
-                sx={{height: "55px"}}
-                onClick={() => {
-                  dispatch(putShowCollection(allCollection));
-                  setToggleButton(!toggleButton);
-                }}
-                variant="contained"
-              >
-                show all cities
-              </Button>
+              sx={{height: "55px"}}
+              onClick={() => {
+                dispatch(putShowCollection(favoriteCollection));
+                setShowFavorite(!showFavorite);
+              }}
+              variant="contained"
+            >
+              show favorite cities
+            </Button>
             )}
           </Stack>
         </Grid>
 
       </Grid>
-      <Result showFavorite={toggleButton}/>
+      <Result showFavorite={showFavorite}/>
     </>
   );
 }

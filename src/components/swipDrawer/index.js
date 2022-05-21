@@ -11,7 +11,7 @@ export default function SwipDrawer({showModal, setShowModal}) {
       onKeyDown={() => setShowModal(false)}
     >
       <Maps/>
-    < /Box>
+    </Box>
   );
   return (
     <>

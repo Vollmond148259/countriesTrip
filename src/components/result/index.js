@@ -50,19 +50,23 @@ function Result({showFavorite}) {
                   variant="contained">
             see on map
           </Button>
-          {showFavorite ? <Button
+          {showFavorite ? 
+          <Button
+          onClick={() => {
+            dispatch(removeFavoriteCities(countries[index]));
+          }}
+          variant="contained"
+        >
+          move to bin
+        </Button>
+            :
+            <Button
               onClick={() => checkTheSame(favoriteCollection, countries[index])}
               variant="contained"
             >
               add to list
             </Button>
-            :
-            <Button
-              onClick={() => dispatch(removeFavoriteCities(countries[index]))}
-              variant="contained"
-            >
-              move to bin
-            </Button>
+            
           }
         </Stack>
       </ListItem>
@@ -70,18 +74,10 @@ function Result({showFavorite}) {
   }
 
   function checkTheSame(array, searchingObject) {
-    let flag = false
-    array.map((arr) => {
-      if (arr.city === searchingObject.city) {
-        flag = false
-      } else {
-        flag = true
-      }
-    })
-    if (flag === true) {
-      dispatch(putFavoriteCities(searchingObject))
+    const found=array.find(element=>element.city===searchingObject.city)
+    if(found===undefined){
+      return(dispatch(putFavoriteCities(searchingObject)))
     }
-    return flag
   }
 
 
@@ -102,15 +98,27 @@ function Result({showFavorite}) {
     const data = await response.text();
     const parsedData = Papa.parse(data, {header: true});
     dispatch(putCollection(parsedData.data));
+    dispatch(putShowCollection(parsedData.data))
   };
 
   useEffect(() => {
     getCountries();
-  }, []);
+  },[]);
 
   useEffect(() => {
+    if(!showFavorite){
     dispatch(putShowCollection(filtered(allCollection, defferedValue)));
+    }
+    else{
+    dispatch(putShowCollection(filtered(favoriteCollection, defferedValue)));
+    }
   }, [defferedValue])
+  
+  useEffect(()=>{
+    if(showFavorite){
+dispatch(putShowCollection(favoriteCollection))
+    }  
+},[favoriteCollection])
 
 
   return (
