@@ -1,4 +1,4 @@
-import React, {useDeferredValue, useEffect, useState} from "react";
+import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -14,7 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-
+import HightLight from "./hightlight";
 
 function Result({showFavorite}) {
   const [showModal, setShowModal] = useState(false);
@@ -26,18 +26,24 @@ function Result({showFavorite}) {
   const dispatch = useDispatch();
 
   function renderRow({index, style}) {
-    return (
+    const light=useCallback((str)=>{
+      return(
+        <HightLight filter={defferedValue} str={str}/>
+      )
+    },[])
+
+    return ( 
       <ListItem style={style} key={index} component="div">
         <ListItemButton>
           <Stack direction="column">
             <Stack direction="row">
-              <Typography variant="h5">{countries[index].city}</Typography>
+              <Typography variant="h5">{light(countries[index].city)}</Typography>
             </Stack>
             <Stack direction={{xs: "column", sm: "row"}} spacing={0.3}>
               <Typography variant="h5">
                 {countries[index].population}
               </Typography>
-              <Typography variant="h5">{countries[index].country}</Typography>
+              <Typography variant="h5">{light(countries[index].country)}</Typography>
             </Stack>
           </Stack>
 
@@ -66,7 +72,6 @@ function Result({showFavorite}) {
             >
               add to list
             </Button>
-            
           }
         </Stack>
       </ListItem>
@@ -80,12 +85,11 @@ function Result({showFavorite}) {
     }
   }
 
-
   function filtered(array, value) {
     const tempArray = [];
-    array.map((arr) => {
-      if (arr.city.indexOf(value) !== -1 || arr.country.indexOf(value) !== -1) {
-        tempArray.push(arr);
+    array.map((element) => {
+      if (element.city.indexOf(value) !== -1 || element.country.indexOf(value) !== -1) {
+        tempArray.push(element);
       }
     });
     return tempArray;
@@ -112,13 +116,13 @@ function Result({showFavorite}) {
     else{
     dispatch(putShowCollection(filtered(favoriteCollection, defferedValue)));
     }
-  }, [defferedValue])
+  }, [defferedValue,favoriteCollection,showFavorite])
   
-  useEffect(()=>{
-    if(showFavorite){
-dispatch(putShowCollection(favoriteCollection))
-    }  
-},[favoriteCollection])
+//   useEffect(()=>{
+//     if(showFavorite){
+// dispatch(putShowCollection(favoriteCollection))
+//     }  
+// },[favoriteCollection])
 
 
   return (

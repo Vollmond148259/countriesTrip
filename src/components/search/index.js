@@ -53,9 +53,9 @@ export function Search() {
             )}
           </Stack>
         </Grid>
-
+        <Result showFavorite={showFavorite}/>
       </Grid>
-      <Result showFavorite={showFavorite}/>
+      
     </>
   );
 }
