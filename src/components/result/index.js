@@ -25,7 +25,7 @@ function Result({showFavorite}) {
   const defferedValue = useDeferredValue(searchingValue);
   const dispatch = useDispatch();
 
-  function renderRow({index, style}) {
+  function RenderRow({index, style}) {
     const light=useCallback((str)=>{
       return(
         <HightLight filter={defferedValue} str={str}/>
@@ -145,7 +145,7 @@ function Result({showFavorite}) {
                   itemSize={120}
                   width={width}
                 >
-                  {renderRow}
+                  {RenderRow}
                 </List>
               )}
             </AutoSizer>

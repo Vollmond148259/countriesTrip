@@ -27,9 +27,9 @@ export function Search() {
           />
         </Grid>
         <Grid item xs={3}>
-          <Stack direction="column">
             {showFavorite ? (
               <Button
+              fullWidth
               sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(allCollection));
@@ -41,6 +41,7 @@ export function Search() {
             </Button>
             ) : (
               <Button
+              fullWidth
               sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(favoriteCollection));
@@ -51,11 +52,9 @@ export function Search() {
               show favorite cities
             </Button>
             )}
-          </Stack>
         </Grid>
         <Result showFavorite={showFavorite}/>
       </Grid>
-      
     </>
   );
 }
