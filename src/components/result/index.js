@@ -2,6 +2,7 @@ import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
+  changeFavoriteMarker,
   putChoiceCoordinates,
   putCollection,
   putFavoriteCities,
@@ -14,6 +15,7 @@ import Papa from "papaparse";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import map from "lodash/map"
+import merge from "lodash/merge"
 import chunk from "lodash/chunk"
 import HightLight from "../result/hightlight"
 import {FixedSizeList as List} from "react-window";
@@ -42,11 +44,13 @@ function Result({showFavorite}) {
               <Stack direction="row">
                 <Typography variant="h5">{light(countries[index].city)}</Typography>
               </Stack>
-              <Stack direction={{xs: "column", sm: "row"}} spacing={0.3}>
+              <Stack direction={{xs: "column", sm: "row"}} spacing={0.4}>
                 <Typography variant="h5">
                   {countries[index].population}
                 </Typography>
                 <Typography variant="h5">{light(countries[index].country)}</Typography>
+                <Typography variant="h5">{countries[index].favorite}</Typography>
+                <></>
               </Stack>
             </Stack>
           </ListItemButton>
@@ -68,12 +72,25 @@ function Result({showFavorite}) {
                 move to bin
               </Button>
               :
-              <Button
-                onClick={() => checkTheSame(favoriteCollection, countries[index])}
-                variant="contained"
-              >
-                add to list
-              </Button>
+              countries[index].favorite === "false" ? <Button
+                  onClick={() => {
+                    dispatch(changeFavoriteMarker({index: index, value: "true"}));
+                    checkTheSame(favoriteCollection, countries[index]);
+                  }}
+                  variant="contained"
+                >
+                  add to list
+                </Button>
+                :
+                <Button
+                  onClick={() => {
+                    dispatch(changeFavoriteMarker({index: index, value: "false"}));
+                    checkTheSame(favoriteCollection, countries[index]);
+                  }}
+                  variant="contained"
+                >
+                  in wishlist
+                </Button>
             }
           </Stack>
         </ListItem>
@@ -86,6 +103,16 @@ function Result({showFavorite}) {
     if (found === undefined) {
       return (dispatch(putFavoriteCities(searchingObject)))
     }
+  }
+
+  function attributeToCollection(array) {
+    let chArr = []
+    //let array = [{a: "1", b: "2", c: "3"}, {a: "4", b: "5", c: "6"}, {a: "7", b: "8", c: "9"}]
+    const addObject = {favorite: "false"}
+    map(array, (arr, index) => {
+      chArr.push(merge(arr, addObject))
+    })
+    return chArr
   }
 
   function filtered(array, value) {
@@ -111,8 +138,8 @@ function Result({showFavorite}) {
     );
     const data = await response.text();
     const parsedData = Papa.parse(data, {header: true});
-    dispatch(putCollection(parsedData.data));
-    dispatch(putShowCollection(parsedData.data))
+    dispatch(putCollection(attributeToCollection(parsedData.data)));
+    dispatch(putShowCollection(attributeToCollection(parsedData.data)))
   };
   useEffect(() => {
     getCountries();
