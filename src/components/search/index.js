@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Grid, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import Result from "../result"
-import {putSearchValue, putShowCollection} from "../../redux/slice/slice";
+import {putRandomCoordinates, putSearchValue, putShowCollection} from "../../redux/slice/slice";
 
 export function Search() {
   const dispatch = useDispatch();
@@ -11,6 +11,19 @@ export function Search() {
   );
   const allCollection = useSelector((state) => state.counter.collection);
   const [showFavorite, setShowFavorite] = useState(false);
+  const [random, startRandom] = useState(false)
+
+
+  useEffect(() => {
+    function randomCoords(array) {
+      const randomCity = Math.floor(Math.random() * allCollection.length)
+      console.log(randomCity)
+      return (dispatch(putRandomCoordinates([array[randomCity].lat, array[randomCity].lng])))
+    }
+
+    randomCoords(allCollection)
+  }, [, random])
+
   return (
     <>
       <Grid mt={5} container spacing={2}>
@@ -53,7 +66,8 @@ export function Search() {
 
         </Grid>
         <Grid item xs={2}>
-          <Button sx={{height: "55px"}} variant="contained">get random</Button>
+          <Button onClick={() => startRandom(!random)} sx={{height: "55px"}}
+                  variant="contained">get random</Button>
         </Grid>
         <Result showFavorite={showFavorite}/>
       </Grid>
