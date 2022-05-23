@@ -10,12 +10,9 @@ export const counterSlice = createSlice({
     collection: [{city: "", country: "", lat: "1", lng: "1"}],
     searchValue: "",
     coordinates: [0, 0],
-    randomCoords: [0, 0],
+    randomCoordinates: [0, 0],
   },
   reducers: {
-    changeFavoriteMarker: (state, action) => {
-      state.collection[action.payload.index].favorite = action.payload.value
-    },
     putPageCollection: (state, action) => {
       state.pageCollection = action.payload;
     },
@@ -44,7 +41,6 @@ export const counterSlice = createSlice({
 });
 
 export const {
-  changeFavoriteMarker,
   putPageCollection,
   putRandomCoordinates,
   putCollection,
