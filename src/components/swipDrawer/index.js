@@ -16,7 +16,6 @@ export default function SwipDrawer({showModal, setShowModal}) {
   return (
     <>
       <SwipeableDrawer
-        
         open={showModal}
         anchor={"bottom"}
         onClose={() => setShowModal(false)}
