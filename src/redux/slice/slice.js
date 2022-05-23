@@ -5,12 +5,16 @@ export const counterSlice = createSlice({
   name: "counter",
   initialState: {
     favoriteCollection: [],
+    pageCollection: [{city: "no", country: "country"}],
     showCollection: [{city: "no", country: "country"}],
     collection: [{city: "", country: ""}],
     searchValue: "",
     coordinates: [0, 0],
   },
   reducers: {
+    putPageCollection: (state, action) => {
+      state.pageCollection = action.payload;
+    },
     putCollection: (state, action) => {
       state.collection = action.payload;
     },
@@ -33,6 +37,7 @@ export const counterSlice = createSlice({
 });
 
 export const {
+  putPageCollection,
   putCollection,
   putSearchValue,
   putFavoriteCities,

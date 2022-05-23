@@ -5,6 +5,7 @@ import {
   putChoiceCoordinates,
   putCollection,
   putFavoriteCities,
+  putPageCollection,
   putShowCollection,
   removeFavoriteCities
 } from "../../redux/slice/slice";
@@ -12,10 +13,11 @@ import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import map from "lodash/map"
+import chunk from "lodash/chunk"
+import HightLight from "../result/hightlight"
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import HightLight from "./hightlight";
-import map from "lodash/map"
 
 function Result({showFavorite}) {
   const [showModal, setShowModal] = useState(false);
@@ -24,58 +26,60 @@ function Result({showFavorite}) {
   const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
   const countries = useSelector((state) => state.counter.showCollection);
   const defferedValue = useDeferredValue(searchingValue);
+  const pageCollection = useSelector((state) => state.counter.pageCollection);
   const dispatch = useDispatch();
 
-  function RenderRow({index, style}) {
-    const light = useCallback((str) => {
+  const RenderRow = ({index, style}) => {
+      const light = useCallback((str) => {
+        return (
+          <HightLight filter={defferedValue} str={str}/>
+        )
+      }, [])
       return (
-        <HightLight filter={defferedValue} str={str}/>
-      )
-    }, [])
-    return (
-      <ListItem style={style} key={index} component="div">
-        <ListItemButton>
-          <Stack direction="column">
-            <Stack direction="row">
-              <Typography variant="h5">{light(countries[index].city)}</Typography>
+        <ListItem style={style} key={index} component="div">
+          <ListItemButton>
+            <Stack direction="column">
+              <Stack direction="row">
+                <Typography variant="h5">{light(countries[index].city)}</Typography>
+              </Stack>
+              <Stack direction={{xs: "column", sm: "row"}} spacing={0.3}>
+                <Typography variant="h5">
+                  {countries[index].population}
+                </Typography>
+                <Typography variant="h5">{light(countries[index].country)}</Typography>
+              </Stack>
             </Stack>
-            <Stack direction={{xs: "column", sm: "row"}} spacing={0.3}>
-              <Typography variant="h5">
-                {countries[index].population}
-              </Typography>
-              <Typography variant="h5">{light(countries[index].country)}</Typography>
-            </Stack>
+          </ListItemButton>
+          <Stack direction="column" spacing={0.5}>
+            <Button onClick={() => {
+              setShowModal(true);
+              dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
+            }}
+                    variant="contained">
+              see on map
+            </Button>
+            {showFavorite ?
+              <Button
+                onClick={() => {
+                  dispatch(removeFavoriteCities(countries[index]));
+                }}
+                variant="contained"
+              >
+                move to bin
+              </Button>
+              :
+              <Button
+                onClick={() => checkTheSame(favoriteCollection, countries[index])}
+                variant="contained"
+              >
+                add to list
+              </Button>
+            }
           </Stack>
-        </ListItemButton>
-        <Stack direction="column" spacing={0.5}>
-          <Button onClick={() => {
-            setShowModal(true);
-            dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
-          }}
-                  variant="contained">
-            see on map
-          </Button>
-          {showFavorite ?
-            <Button
-              onClick={() => {
-                dispatch(removeFavoriteCities(countries[index]));
-              }}
-              variant="contained"
-            >
-              move to bin
-            </Button>
-            :
-            <Button
-              onClick={() => checkTheSame(favoriteCollection, countries[index])}
-              variant="contained"
-            >
-              add to list
-            </Button>
-          }
-        </Stack>
-      </ListItem>
-    );
-  }
+        </ListItem>
+      )
+    }
+  ;
 
   function checkTheSame(array, searchingObject) {
     const found = array.find(element => element.city === searchingObject.city)
@@ -115,6 +119,10 @@ function Result({showFavorite}) {
     }
   }, [defferedValue, favoriteCollection, showFavorite])
 
+  useEffect(() => {
+    dispatch(putPageCollection(chunk(countries, 10)))
+    console.log(pageCollection)
+  }, [])
   return (
     <>
       <Grid mt={1} container spacing={2}>

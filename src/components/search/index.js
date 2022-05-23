@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Grid, Stack, TextField} from "@mui/material";
+import {Button, Grid, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import Result from "../result"
 import {putSearchValue, putShowCollection} from "../../redux/slice/slice";
@@ -14,7 +14,7 @@ export function Search() {
   return (
     <>
       <Grid mt={5} container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <TextField
             autoComplete="off"
             onChange={() => {
@@ -26,10 +26,9 @@ export function Search() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={3}>
-            {showFavorite ? (
-              <Button
-              fullWidth
+        <Grid item xs={2}>
+          {showFavorite ? (
+            <Button
               sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(allCollection));
@@ -39,9 +38,8 @@ export function Search() {
             >
               show all cities
             </Button>
-            ) : (
-              <Button
-              fullWidth
+          ) : (
+            <Button
               sx={{height: "55px"}}
               onClick={() => {
                 dispatch(putShowCollection(favoriteCollection));
@@ -51,7 +49,11 @@ export function Search() {
             >
               show favorite cities
             </Button>
-            )}
+          )}
+
+        </Grid>
+        <Grid item xs={2}>
+          <Button sx={{height: "55px"}} variant="contained">get random</Button>
         </Grid>
         <Result showFavorite={showFavorite}/>
       </Grid>
