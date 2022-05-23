@@ -90,8 +90,9 @@ function Result({showFavorite}) {
 
   function filtered(array, value) {
     const tempArray = [];
+    const firstChar = value.charAt(0).toUpperCase()
     map(array, (element) => {
-      if (element.city.indexOf(value) !== -1 || element.country.indexOf(value) !== -1) {
+      if (element.city.indexOf(firstChar) !== -1 || element.country.indexOf(firstChar) !== -1) {
         tempArray.push(element);
       }
     });
