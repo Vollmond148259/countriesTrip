@@ -89,10 +89,16 @@ function Result({showFavorite}) {
   }
 
   function filtered(array, value) {
+    if (!value) {
+      return array
+    }
     const tempArray = [];
-    const firstChar = value.charAt(0).toUpperCase()
+    const valueArray = value.split("")
+    const firstChar = valueArray[0].toUpperCase()
+    valueArray[0] = firstChar
+    const changedValue = valueArray.join('')
     map(array, (element) => {
-      if (element.city.indexOf(firstChar) !== -1 || element.country.indexOf(firstChar) !== -1) {
+      if (element.city.indexOf(changedValue) !== -1 || element.country.indexOf(changedValue) !== -1) {
         tempArray.push(element);
       }
     });

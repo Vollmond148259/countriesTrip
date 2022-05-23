@@ -17,7 +17,6 @@ export function Search() {
   useEffect(() => {
     function randomCoords(array) {
       const randomCity = Math.floor(Math.random() * allCollection.length)
-      console.log(randomCity)
       return (dispatch(putRandomCoordinates([array[randomCity].lat, array[randomCity].lng])))
     }
 
