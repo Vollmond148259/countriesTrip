@@ -4,7 +4,7 @@ import reject from "lodash/reject"
 export const counterSlice = createSlice({
   name: "counter",
   initialState: {
-    favoriteCollection: [],
+    favoriteCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     showCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     collection: [{city: "", country: "", lat: "1", lng: "1"}],
     searchValue: "",

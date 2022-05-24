@@ -117,7 +117,11 @@ export function Search() {
             </StyledButton>
           </Stack>
         </Grid>
-        <Result showFavorite={showFavorite}/>
+        <Grid mt={5} container spacing={2}>
+          <Grid item xs={12}>
+            <Result showFavorite={showFavorite}/>
+          </Grid>
+        </Grid>
       </Grid>
     </>
   );
