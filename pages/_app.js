@@ -1,14 +1,27 @@
 import store from "../src/redux/store";
 import PropTypes from "prop-types"
 import {Provider} from "react-redux";
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from '../styles/theme';
+import {CacheProvider} from '@emotion/react';
+import {ThemeProvider} from '@mui/material/styles';
 
+import createEmotionCache from '../src/components/createEmotionCache';
 
-function MyApp({Component, pageProps}) {
+const clientSideEmotionCache = createEmotionCache();
+
+function MyApp(props) {
+  const {Component, emotionCache = clientSideEmotionCache, pageProps} = props
   return (
     <>
-      <Provider store={store}>
-        <Component {...pageProps}/>
-      </Provider>
+      <CacheProvider value={emotionCache}>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps}/>
+            <CssBaseline/>
+          </ThemeProvider>
+        </Provider>
+      </CacheProvider>
     </>
   )
 }

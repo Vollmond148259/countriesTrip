@@ -11,7 +11,7 @@ function HightLight({filter, str}) {
         return (<Box key={index} component="span">{symbol}<Box component="span"
                                                                sx={{
                                                                  borderRadius: "5px",
-                                                                 backgroundColor: "yellow"
+                                                                 backgroundColor: "searchlight.main",
                                                                }}>{c}</Box></Box>)
       }
       return symbol

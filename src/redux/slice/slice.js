@@ -5,7 +5,6 @@ export const counterSlice = createSlice({
   name: "counter",
   initialState: {
     favoriteCollection: [],
-    pageCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     showCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     collection: [{city: "", country: "", lat: "1", lng: "1"}],
     searchValue: "",
