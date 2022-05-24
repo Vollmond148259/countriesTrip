@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import Box from "@mui/material/Box";
 import {Button} from "@mui/material";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Maps from "../swipDrawer/gmap"
-import StreetView from "./streetView";
+import SimpleMap from "../swipDrawer/googlemap"
+import GoogleStreet from "../swipDrawer/googlestreet"
 
 export default function SwipDrawer({showModal, setShowModal}) {
   const [selectView, setView] = useState("none")
@@ -20,8 +20,8 @@ export default function SwipDrawer({showModal, setShowModal}) {
         role="presentation"
         onKeyDown={() => setShowModal(false)}
       >
-        {selectView === "map" && <Maps/>}
-        {selectView === "street" && <StreetView/>}
+        {selectView === "map" && <SimpleMap/>}
+        {selectView === "street" && <GoogleStreet/>}
       </Box>
     </>
   );

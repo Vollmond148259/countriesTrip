@@ -83,7 +83,7 @@ function Result({showFavorite}) {
                     }}
                     variant="outlined"
                   >
-                    Add to list
+                    I want to visit
                   </Button>
               }
             </Stack>
@@ -154,7 +154,7 @@ function Result({showFavorite}) {
       <Box
         sx={{
           width: "100%",
-          height: "60vh",
+          height: "80vh",
           maxWidth: "100vw",
         }}
       >
