@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useDeferredValue, useEffect, useState} from "react";
+import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Paper, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -24,7 +24,6 @@ function Result({showFavorite}) {
   const countries = useSelector((state) => state.counter.showCollection);
   const defferedValue = useDeferredValue(searchingValue);
   const dispatch = useDispatch();
-
 
   const RenderRow = ({index, style}) => {
       const light = useCallback((str) => {
@@ -131,20 +130,20 @@ function Result({showFavorite}) {
   // )
   // innerElementType.displayName = 'MyComponent';
   // ;
-  const GUTTER_SIZE = 5;
-  const COLUMN_WIDTH = 100;
-  const ROW_HEIGHT = 35;
-  const innerElementType = forwardRef(({style, ...rest}, ref) => (
-    <div
-      ref={ref}
-      style={{
-        ...style,
-        paddingLeft: GUTTER_SIZE,
-        paddingTop: GUTTER_SIZE
-      }}
-      {...rest}
-    />
-  ));
+  // const GUTTER_SIZE = 5;
+  // const COLUMN_WIDTH = 100;
+  // const ROW_HEIGHT = 35;
+  // const innerElementType = forwardRef(({style, ...rest}, ref) => (
+  //   <div
+  //     ref={ref}
+  //     style={{
+  //       ...style,
+  //       paddingLeft: GUTTER_SIZE,
+  //       paddingTop: GUTTER_SIZE
+  //     }}
+  //     {...rest}
+  //   />
+  // ));
 
   return (
     <>
@@ -162,7 +161,6 @@ function Result({showFavorite}) {
               height={height}
               itemCount={countries.length}
               itemSize={200}
-              innerElementType={innerElementType}
               width={width}
             >
               {RenderRow}

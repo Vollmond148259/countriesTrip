@@ -6,17 +6,13 @@ import map from "lodash/map"
 import {useDispatch, useSelector} from "react-redux"
 import {putVariantCollection} from "../../../redux/slice/slice";
 
-
 function LitleCityList() {
   const dispatch = useDispatch()
   const allCollection = useSelector((state) => state.counter.collection)
   const randomTown = useSelector((state) => state.counter.randomTown)
   const variantCollection = useSelector((state) => state.counter.variantCollection)
 
-
   useEffect(() => {
-
-
     function getRandomArray(array) {
       function mixarr(arr) {
         return arr.map(i => [Math.random(), i]).sort().map(i => i[1])
@@ -32,14 +28,13 @@ function LitleCityList() {
     }
 
     getRandomArray(allCollection)
-
   }, [randomTown])
 
-  const ar = variantCollection
+
   return (
     <>
       <List component="nav" aria-label="main mailbox folders">
-        {map(ar, (item, index) => (
+        {map(variantCollection, (item, index) => (
 
             <ListItemButton
               key={index}
