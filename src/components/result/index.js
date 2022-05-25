@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useDeferredValue, useEffect, useState} from "react";
+import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Paper, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -16,21 +16,21 @@ import Papa from "papaparse";
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-const innerElementType = forwardRef(({style, ...rest}, ref) => (
-  <div
-    ref={ref}
-    style={{
-      ...style,
-      height: `${parseFloat(style.height) + 210 * 2}px`
-    }}
-    {...rest}
-  >
-    
-  </div>
-));
+// const innerElementType = forwardRef(({style, ...rest}, ref) => (
+//   <div
+//     ref={ref}
+//     style={{
+//       ...style,
+//       height: `${parseFloat(style.height) + 10 * 2}px`
+//     }}
+//     {...rest}
+//   >
+//
+//   </div>
+// ));
 
-function Result() {
-  const showFavorite = false
+function Result({showFavorite}) {
+
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
@@ -46,16 +46,13 @@ function Result() {
         )
       }, [])
       return (
-        <Paper elevation={0} key={index} style={{
-          ...style,
-          top: `${parseFloat(style.top) + 150}px`
-        }}
+        <Paper elevation={4} key={index} style={style}
                sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px"}}>
-          <Grid pl={2} pr={2} container spacing={{xs: 1, sm: 2}} justifyContent="space-between">
-            <Grid m={3} item xs={10} sm={3} md={2} lg={2}>
-              <Box height="110px" width="200px" sx={{border: "2px solid violet"}}/>
+          <Grid pl={2} pr={2} container spacing={{xs: 0.5, sm: 2}} justifyContent="space-between">
+            <Grid m={1} item xs={10} sm={3} md={2} lg={2}>
+
             </Grid>
-            <Grid item xs={10} sm={4} md={5} lg={7} mt={2}>
+            <Grid item xs={10} sm={4} md={5} lg={7} mt={{xs: 0, sm: 2, md: 4}}>
               <Typography color="text.main" variant="h5">{light(countries[index].city)}</Typography>
               <Stack direction={{xs: "row", sm: "column", md: "row"}} spacing={1}>
                 <Typography variant="h5" color="text.additional">
@@ -64,7 +61,6 @@ function Result() {
                 <Typography variant="h5" color="text.additional">{light(countries[index].country)}</Typography>
               </Stack>
             </Grid>
-
             <Stack direction="column" spacing={1} mt={3} mr={7}>
               <Button onClick={() => {
                 setShowModal(true);
@@ -136,8 +132,9 @@ function Result() {
     <>
       <Box
         sx={{
+          ml: 1,
           width: "100%",
-          height: "80vh",
+          height: "70vh",
           maxWidth: "100vw",
         }}
       >
@@ -147,8 +144,7 @@ function Result() {
               sx={{background: "background.default"}}
               height={height}
               itemCount={countries.length}
-              innerElementType={innerElementType}
-              itemSize={200}
+              itemSize={210}
               width={width}
             >
               {RenderRow}

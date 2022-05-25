@@ -33,8 +33,9 @@ function LitleCityList() {
 
   return (
     <>
-      <Typography color="white" variant="h4">{message}</Typography>
+
       <List component="nav" aria-label="main mailbox folders">
+        <Typography m={2} color="white" variant="h4">Variants</Typography>
         {map(variantCollection, (item, index) => (
 
             <ListItemButton

@@ -96,7 +96,7 @@ export function Search() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12} sm={12}>
           <Stack direction="row" spacing={2}>
             <StyledButton
               ref={ref}
@@ -124,7 +124,7 @@ export function Search() {
               }}
               variant="contained"
             >
-              random city
+              random
             </StyledButton>
           </Stack>
         </Grid>
