@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactStreetview from 'react-streetview';
-import {useSelector} from "react-redux";
 
-function GoogleStreet() {
-  const coordinates = useSelector((state) => state.counter.coordinates)
+function GoogleStreet({coordinates}) {
   const lat = Number(coordinates[0])
   const lng = Number(coordinates[1])
   // see https://developers.google.com/maps/documentation/javascript
@@ -18,8 +16,8 @@ function GoogleStreet() {
 
   return (
     <div style={{
-      width: '800px',
-      height: '450px',
+      width: '100vw',
+      height: '60vh',
     }}>
       <ReactStreetview
         apiKey={googleMapsApiKey}

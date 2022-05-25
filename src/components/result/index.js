@@ -37,7 +37,7 @@ function Result({showFavorite}) {
                sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px"}}>
           <Grid pl={2} pr={2} container spacing={{xs: 1, sm: 2}} justifyContent="space-between">
             <Grid m={3} item xs={10} sm={3} md={2} lg={2}>
-              <Box height="110px" width="200px" sx={{border: "2px solid red"}}/>
+              <Box height="110px" width="200px" sx={{border: "2px solid violet"}}/>
             </Grid>
             <Grid item xs={10} sm={4} md={5} lg={7} mt={2}>
               <Typography color="text.main" variant="h5">{light(countries[index].city)}</Typography>
@@ -116,10 +116,7 @@ function Result({showFavorite}) {
     }
     , [defferedValue, favoriteCollection, showFavorite])
 
-  // useEffect(() => {
-  //     dispatch(putPageCollection(chunk(countries, 10)))
-  //   }
-  //   , [])
+
   // const paddTop = 10
   // const innerElementType = forwardRef(({style, ...rest}, ref) => (
   //     <div

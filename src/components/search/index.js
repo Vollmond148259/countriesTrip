@@ -1,11 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {Button, Grid, Stack, styled, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import theme from "../../../styles/theme"
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
-import {putRandomCoordinates, putSearchValue, putShowCollection} from "../../redux/slice/slice";
+import {putRandomCoordinates, putRandomTown, putSearchValue, putShowCollection} from "../../redux/slice/slice";
 import Result from "../result";
+import SwipDrawer from "../swipDrawer";
 
 export function Search() {
   const ref = useRef(null)
@@ -56,22 +57,23 @@ export function Search() {
     (state) => state.counter.favoriteCollection
   );
   const allCollection = useSelector((state) => state.counter.collection);
+  const [randomModal, setRandomModal] = useState(false)
   const [showFavorite, setShowFavorite] = useState(false);
-  const [random, startRandom] = useState(false)
 
 
-  useEffect(() => {
-    function randomCoords(array) {
-      const randomCity = Math.floor(Math.random() * allCollection.length)
-      return (dispatch(putRandomCoordinates([array[randomCity].lat, array[randomCity].lng])))
-    }
+  function getRandomTown(array) {
+    const randomCity = Math.floor(Math.random() * allCollection.length)
+    dispatch(putRandomCoordinates([array[randomCity].lat, array[randomCity].lng]))
+    dispatch(putRandomTown(array[randomCity]))
+  }
 
-    randomCoords(allCollection)
-  }, [, random])
 
   const handleLoadShowCollection = (collection, value) => {
     dispatch(putShowCollection(collection));
     setShowFavorite(value);
+  }
+  const handleRandomCity = () => {
+    setRandomModal(!randomModal)
   }
 
   return (
@@ -94,7 +96,7 @@ export function Search() {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={7}>
           <Stack direction="row" spacing={2}>
             <StyledButton
               ref={ref}
@@ -115,6 +117,15 @@ export function Search() {
             >
               selected
             </StyledButton>
+            <StyledButton
+              onClick={() => {
+                handleRandomCity();
+                getRandomTown(allCollection);
+              }}
+              variant="contained"
+            >
+              random city
+            </StyledButton>
           </Stack>
         </Grid>
         <Grid mt={5} container spacing={2}>
@@ -122,6 +133,7 @@ export function Search() {
             <Result showFavorite={showFavorite}/>
           </Grid>
         </Grid>
+        <SwipDrawer showModal={randomModal} setShowModal={setRandomModal} random={randomModal}/>
       </Grid>
     </>
   );

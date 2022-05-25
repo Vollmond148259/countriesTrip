@@ -5,15 +5,20 @@ export const counterSlice = createSlice({
   name: "counter",
   initialState: {
     favoriteCollection: [],
+    variantCollection: [],
     showCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     collection: [{city: "", country: "", lat: "1", lng: "1"}],
     searchValue: "",
     coordinates: [0, 0],
+    randomTown: [],
     randomCoordinates: [0, 0],
   },
   reducers: {
-    putPageCollection: (state, action) => {
-      state.pageCollection = action.payload;
+    putVariantCollection: (state, action) => {
+      state.variantCollection = action.payload;
+    },
+    putRandomTown: (state, action) => {
+      state.randomTown = action.payload;
     },
     putCollection: (state, action) => {
       state.collection = action.payload;
@@ -40,6 +45,8 @@ export const counterSlice = createSlice({
 });
 
 export const {
+  putVariantCollection,
+  putRandomTown,
   putPageCollection,
   putRandomCoordinates,
   putCollection,
