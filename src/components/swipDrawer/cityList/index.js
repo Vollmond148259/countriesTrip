@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import map from "lodash/map"
 import {useDispatch, useSelector} from "react-redux"
-import {putVariantCollection} from "../../../redux/slice/slice";
+import {putUserGuessTown, putVariantCollection} from "../../../redux/slice/slice";
 
 function LitleCityList() {
   const dispatch = useDispatch()
@@ -33,10 +33,12 @@ function LitleCityList() {
 
   return (
     <>
+      <Typography color="white" variant="h4">{message}</Typography>
       <List component="nav" aria-label="main mailbox folders">
         {map(variantCollection, (item, index) => (
 
             <ListItemButton
+              onClick={() => dispatch(putUserGuessTown(item))}
               key={index}
             >
               <Stack direction="row" spacing={2}>

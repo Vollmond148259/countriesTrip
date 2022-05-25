@@ -1,4 +1,4 @@
-import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
+import React, {forwardRef, useCallback, useDeferredValue, useEffect, useState} from "react";
 import {Box, Button, Grid, Paper, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -16,7 +16,21 @@ import Papa from "papaparse";
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-function Result({showFavorite}) {
+const innerElementType = forwardRef(({style, ...rest}, ref) => (
+  <div
+    ref={ref}
+    style={{
+      ...style,
+      height: `${parseFloat(style.height) + 210 * 2}px`
+    }}
+    {...rest}
+  >
+    
+  </div>
+));
+
+function Result() {
+  const showFavorite = false
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
@@ -32,7 +46,10 @@ function Result({showFavorite}) {
         )
       }, [])
       return (
-        <Paper elevation={0} key={index} style={style}
+        <Paper elevation={0} key={index} style={{
+          ...style,
+          top: `${parseFloat(style.top) + 150}px`
+        }}
                sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px"}}>
           <Grid pl={2} pr={2} container spacing={{xs: 1, sm: 2}} justifyContent="space-between">
             <Grid m={3} item xs={10} sm={3} md={2} lg={2}>
@@ -115,36 +132,6 @@ function Result({showFavorite}) {
     }
     , [defferedValue, favoriteCollection, showFavorite])
 
-
-  // const paddTop = 10
-  // const innerElementType = forwardRef(({style, ...rest}, ref) => (
-  //     <div
-  //       ref={ref}
-  //       style={{
-  //         ...style,
-  //         paddingTop: paddTop,
-  //       }}
-  //       {...rest}
-  //     />
-  //   )
-  // )
-  // innerElementType.displayName = 'MyComponent';
-  // ;
-  // const GUTTER_SIZE = 5;
-  // const COLUMN_WIDTH = 100;
-  // const ROW_HEIGHT = 35;
-  // const innerElementType = forwardRef(({style, ...rest}, ref) => (
-  //   <div
-  //     ref={ref}
-  //     style={{
-  //       ...style,
-  //       paddingLeft: GUTTER_SIZE,
-  //       paddingTop: GUTTER_SIZE
-  //     }}
-  //     {...rest}
-  //   />
-  // ));
-
   return (
     <>
       <Box
@@ -160,6 +147,7 @@ function Result({showFavorite}) {
               sx={{background: "background.default"}}
               height={height}
               itemCount={countries.length}
+              innerElementType={innerElementType}
               itemSize={200}
               width={width}
             >
@@ -170,8 +158,8 @@ function Result({showFavorite}) {
       </Box>
       <SwipDrawer showModal={showModal} setShowModal={setShowModal}/>
     </>
-  )
-    ;
+  );
 }
+
 
 export default Result;
