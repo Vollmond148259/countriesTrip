@@ -16,19 +16,6 @@ import Papa from "papaparse";
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-// const innerElementType = forwardRef(({style, ...rest}, ref) => (
-//   <div
-//     ref={ref}
-//     style={{
-//       ...style,
-//       height: `${parseFloat(style.height) + 10 * 2}px`
-//     }}
-//     {...rest}
-//   >
-//
-//   </div>
-// ));
-
 function Result({showFavorite}) {
 
   const [showModal, setShowModal] = useState(false);

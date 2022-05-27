@@ -4,6 +4,7 @@ import reject from "lodash/reject"
 export const counterSlice = createSlice({
   name: "counter",
   initialState: {
+    userCount: 10,
     favoriteCollection: [],
     userGuessTown: [{city: ""}],
     variantCollection: [],
@@ -11,10 +12,16 @@ export const counterSlice = createSlice({
     collection: [{city: "", country: "", lat: "1", lng: "1"}],
     searchValue: "",
     coordinates: [0, 0],
-    randomTown: [{city: "1"}],
+    randomTown: [{city: ""}],
     randomCoordinates: [0, 0],
   },
   reducers: {
+    addToUserCount: (state) => {
+      state.userCount += 1
+    },
+    takeAwayToUserCount: (state) => {
+      state.userCount -= 2
+    },
     putUserGuessTown: (state, action) => {
       state.userguessTown = action.payload;
     },
@@ -49,6 +56,8 @@ export const counterSlice = createSlice({
 });
 
 export const {
+  addToUserCount,
+  takeAwayToUserCount,
   putVariantCollection,
   putRandomTown,
   putUserGuessTown,

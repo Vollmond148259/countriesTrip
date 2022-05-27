@@ -31,10 +31,13 @@ export default function SwipDrawer({showModal, setShowModal, random}) {
       {!random && <Button fullWidth onClick={() => {
         setView("map")
       }} variant="contained">show Map</Button>}
-      <Button fullWidth onClick={() => {
-        console.log("rfsfsdf")
-        setView("street")
-      }} variant="contained">show street</Button>
+      {!random ? <Button fullWidth onClick={() => {
+          console.log("rfsfsdf")
+          setView("street")
+        }} variant="contained">show street</Button>
+        :
+        <GoogleStreet coordinates={coordinates}/>
+      }
       <Box
         role="presentation"
         onKeyDown={() => setShowModal(false)}

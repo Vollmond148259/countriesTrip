@@ -9,7 +9,7 @@ export default function SimpleMap({coordinates}) {
   const lng = Number(coordinates[1])
   return (
     // Important! Always set the container height explicitly
-    <div style={{height: '60vh', width: '100vw'}}>
+    <div style={{height: '50vh', width: '100vw'}}>
       <GoogleMapReact
         bootstrapURLKeys={{key: "AIzaSyAM6-oJNLTG6awt6VCXb8_ENlUnSppaU9M"}}
         defaultCenter={[lat, lng]}

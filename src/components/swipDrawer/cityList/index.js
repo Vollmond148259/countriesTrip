@@ -4,13 +4,16 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import map from "lodash/map"
 import {useDispatch, useSelector} from "react-redux"
-import {putUserGuessTown, putVariantCollection} from "../../../redux/slice/slice";
+import {addToUserCount, putUserGuessTown, putVariantCollection, takeAwayToUserCount} from "../../../redux/slice/slice";
 
 function LitleCityList() {
   const dispatch = useDispatch()
   const allCollection = useSelector((state) => state.counter.collection)
   const randomTown = useSelector((state) => state.counter.randomTown)
   const variantCollection = useSelector((state) => state.counter.variantCollection)
+  const userGuessTown = useSelector((state) => state.counter.userGuessTown)
+  const userCount = useSelector((state) => state.counter.userCount)
+
 
   useEffect(() => {
     function getRandomArray(array) {
@@ -30,12 +33,24 @@ function LitleCityList() {
     getRandomArray(allCollection)
   }, [randomTown])
 
+  useEffect(() => {
+    function compareAnswerWithRight() {
+      if (userGuessTown.city === randomTown.city) {
+        dispatch(addToUserCount())
+      } else {
+        dispatch(takeAwayToUserCount())
+      }
+      return userCount
+    }
+
+    compareAnswerWithRight()
+  }, [userGuessTown])
 
   return (
     <>
-
-      <List component="nav" aria-label="main mailbox folders">
+      <List>
         <Typography m={2} color="white" variant="h4">Variants</Typography>
+        <Typography m={2} color="white" variant="h5">{userCount}</Typography>
         {map(variantCollection, (item, index) => (
 
             <ListItemButton
