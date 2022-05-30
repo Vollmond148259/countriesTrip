@@ -1,5 +1,5 @@
-import React, {useCallback,forwardRef, useDeferredValue, useEffect, useState} from "react";
-import {Box, Button,Container, Grid, Paper, Stack, Typography} from "@mui/material";
+import React, {forwardRef, useCallback, useDeferredValue, useEffect, useState} from "react";
+import {Box, Button, Container, Grid, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
   putChoiceCoordinates,
@@ -13,42 +13,33 @@ import filtered from "../result/filterByWord"
 import HightLight from "../result/hightlight"
 import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
+import Navigate from "../search"
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import {StyledTextField} from "../search"
 
-const innerElementType = forwardRef(({style, ...rest}, ref) => {
-  return (
-    <Container>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        marginTop="24px"
-        alignItems="center"
-      >
-          <StyledTextField autoComplete="off"
-            fullWidth
-            variant="outlined"/>
-            </Box>
-      <div
-        ref={ref}
-        style={{...style, height: `${parseFloat(style.height) + 200 * 2}px`}}
-        {...rest}
-      />
-    </Container>
-  )
-});
-innerElementType.displayName="insert"
-
-function Result({showFavorite}) {
-
+function Result() {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
   const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
   const countries = useSelector((state) => state.counter.showCollection);
   const defferedValue = useDeferredValue(searchingValue);
-  const dispatch = useDispatch();
+  const [showFavorite, setShowFavorite] = useState(false);
+
+  const innerElementType = forwardRef(({style, ...rest}, ref) => {
+    return (
+      <Container>
+        <Navigate setShowFavorite={setShowFavorite}/>
+        <div
+          ref={ref}
+          style={{...style, height: `${parseFloat(style.height) + 300 * 2}px`}}
+          {...rest}
+        />
+      </Container>
+    )
+  });
+  innerElementType.displayName = "insert"
 
   const RenderRow = ({index, style}) => {
       const light = useCallback((str) => {
@@ -57,63 +48,65 @@ function Result({showFavorite}) {
         )
       }, [])
       return (
-        <Box  style={{...style,top: `${parseFloat(style.top) + 200}px`,height:`${parseFloat(style.height) + 50}px`}}>
-        <Paper elevation={4} 
-               sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px"}}>
-          <Grid pl={2} pr={2} container spacing={{xs: 0.5, sm: 2}} justifyContent="space-between">
-            <Grid m={1} item xs={10} sm={3} md={2} lg={2}>
-
-            </Grid>
-            <Grid item xs={10} sm={4} md={5} lg={7} mt={{xs: 0, sm: 2, md: 4}}>
-              <Typography color="text.main" variant="h5">{light(countries[index].city)}</Typography>
-              <Stack direction={{xs: "row", sm: "column", md: "row"}} spacing={1}>
-                <Typography variant="h5" color="text.additional">
-                  {countries[index].population}
-                </Typography>
-                <Typography variant="h5" color="text.additional">{light(countries[index].country)}</Typography>
-              </Stack>
-            </Grid>
-            <Stack direction="column" spacing={1} mt={3} mr={7}>
-              <Button onClick={() => {
-                setShowModal(true);
-                dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
-              }}
-                      variant="outlined">
-                See on map
-              </Button>
-              {showFavorite ?
-                <Button
-                  onClick={() => {
-                    dispatch(removeFavoriteCities(countries[index]));
-                  }}
-                  variant="outlined"
-                >
-                  Move to bin
+        <Container
+          style={{
+            ...style,
+            top: `${parseFloat(style.top) + 200}px`,
+            height: `${parseFloat(style.height) + 50}px`
+          }}>
+          <Box
+            sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px", height: "180px"}}>
+            <Grid pl={2} pr={2} container spacing={{xs: 0.5, sm: 2}} justifyContent="space-between">
+              <Grid item xs={10} sm={4} md={5} lg={7} mt={{xs: 0, sm: 2, md: 4}}>
+                <Typography color="text.main" variant="h5">{light(countries[index].city)}</Typography>
+                <Stack direction={{xs: "row", sm: "column", md: "row"}} spacing={1}>
+                  <Typography variant="h5" color="text.additional">
+                    {countries[index].population}
+                  </Typography>
+                  <Typography variant="h5" color="text.additional">{light(countries[index].country)}</Typography>
+                </Stack>
+              </Grid>
+              <Stack direction="column" spacing={1} mt={3} mr={7}>
+                <Button onClick={() => {
+                  setShowModal(true);
+                  dispatch(putChoiceCoordinates([countries[index].lat, countries[index].lng]))
+                }}
+                        variant="outlined">
+                  See on map
                 </Button>
-                :
-                checkTheSame(favoriteCollection, countries[index]) ?
+                {showFavorite ?
                   <Button
                     onClick={() => {
                       dispatch(removeFavoriteCities(countries[index]));
                     }}
                     variant="outlined"
                   >
-                    Delete
+                    Move to bin
                   </Button>
                   :
-                  <Button
-                    onClick={() => {
-                      dispatch(putFavoriteCities(countries[index]));
-                    }}
-                    variant="outlined"
-                  >
-                    I want to visit
-                  </Button>
-              }
-            </Stack>
-          </Grid>
-        </Paper>
-        </Box>
+                  checkTheSame(favoriteCollection, countries[index]) ?
+                    <Button
+                      onClick={() => {
+                        dispatch(removeFavoriteCities(countries[index]));
+                      }}
+                      variant="outlined"
+                    >
+                      Delete
+                    </Button>
+                    :
+                    <Button
+                      onClick={() => {
+                        dispatch(putFavoriteCities(countries[index]));
+                      }}
+                      variant="outlined"
+                    >
+                      I want to visit
+                    </Button>
+                }
+              </Stack>
+            </Grid>
+          </Box>
+        </Container>
       )
     }
   ;
@@ -145,8 +138,7 @@ function Result({showFavorite}) {
     <>
       <Box
         sx={{
-          ml: 1,
-          width: "100%",
+          width: "99%",
           height: "98vh",
           maxWidth: "100vw",
         }}

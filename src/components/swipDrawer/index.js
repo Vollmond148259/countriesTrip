@@ -1,23 +1,21 @@
 import React, {useState} from "react";
 import Box from "@mui/material/Box";
-import {Button, styled} from "@mui/material";
+import {Button} from "@mui/material";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import GoogleStreet from "../swipDrawer/googlestreet"
 import SimpleMap from "../swipDrawer/googlemap"
 import {useSelector} from "react-redux";
 import LitleCityList from "../swipDrawer/cityList"
-import theme from "../../../styles/theme"
+import {StyledButton, StyledList} from "../../elements"
 
 
-export default function SwipDrawer({showModal, setShowModal, random}) {
-  const StyledList = styled(Box)(() => ({
-    backgroundColor: theme.palette.background.default
-  }))
+export default function SwipDrawer({showModal, setShowModal, random, getRandomTown}) {
+
   let coordinates = []
+  const allCollection = useSelector((state) => state.counter.collection)
   const choiceCoordinates = useSelector((state) => state.counter.coordinates)
   const randomCoordinates = useSelector((state) => state.counter.randomCoordinates)
   const [selectView, setView] = useState("none")
-  const anchor = "bottom";
 
   if (random === true) {
     coordinates = randomCoordinates
@@ -25,18 +23,20 @@ export default function SwipDrawer({showModal, setShowModal, random}) {
     coordinates = choiceCoordinates
   }
 
-  const list = (anchor) => (
+  const list = () => (
     <StyledList>
       {random && <LitleCityList/>}
+      {random && <StyledButton variant="contained" onClick={() => {
+        getRandomTown(allCollection)
+      }}>refresh</StyledButton>}
       {!random && <Button fullWidth onClick={() => {
         setView("map")
       }} variant="contained">show Map</Button>}
       {!random ? <Button fullWidth onClick={() => {
-          console.log("rfsfsdf")
           setView("street")
         }} variant="contained">show street</Button>
         :
-        <GoogleStreet coordinates={coordinates}/>
+        <GoogleStreet coordinates={randomCoordinates}/>
       }
       <Box
         role="presentation"
@@ -56,15 +56,12 @@ export default function SwipDrawer({showModal, setShowModal, random}) {
   return (
     <>
       <SwipeableDrawer
-
         open={showModal}
         anchor={"bottom"}
         onClose={() => handleInitialModal()}
         onOpen={() => setShowModal(true)}
       >
-
-        {list(anchor)}
-
+        {list()}
       </SwipeableDrawer>
     </>
   );

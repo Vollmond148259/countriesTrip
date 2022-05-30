@@ -6,7 +6,7 @@ export const counterSlice = createSlice({
   initialState: {
     userCount: 10,
     favoriteCollection: [],
-    userGuessTown: [{city: ""}],
+    userGuessTown: [{city: "1"}],
     variantCollection: [],
     showCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
     collection: [{city: "", country: "", lat: "1", lng: "1"}],

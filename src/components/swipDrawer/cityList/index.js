@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {Stack, Typography} from "@mui/material"
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -8,10 +8,10 @@ import {addToUserCount, putUserGuessTown, putVariantCollection, takeAwayToUserCo
 
 function LitleCityList() {
   const dispatch = useDispatch()
+  let [variant, setVariant] = useState(null)
   const allCollection = useSelector((state) => state.counter.collection)
   const randomTown = useSelector((state) => state.counter.randomTown)
   const variantCollection = useSelector((state) => state.counter.variantCollection)
-  const userGuessTown = useSelector((state) => state.counter.userGuessTown)
   const userCount = useSelector((state) => state.counter.userCount)
 
 
@@ -34,17 +34,20 @@ function LitleCityList() {
   }, [randomTown])
 
   useEffect(() => {
-    function compareAnswerWithRight() {
-      if (userGuessTown.city === randomTown.city) {
-        dispatch(addToUserCount())
-      } else {
-        dispatch(takeAwayToUserCount())
+    dispatch(putUserGuessTown(variant))
+
+    function compareVariantWithAnswer() {
+      if (variant !== null) {
+        if (variant.city === randomTown.city) {
+          dispatch(addToUserCount())
+        } else {
+          dispatch(takeAwayToUserCount())
+        }
       }
-      return userCount
     }
 
-    compareAnswerWithRight()
-  }, [userGuessTown])
+    compareVariantWithAnswer()
+  }, [variant])
 
   return (
     <>
@@ -52,9 +55,10 @@ function LitleCityList() {
         <Typography m={2} color="white" variant="h4">Variants</Typography>
         <Typography m={2} color="white" variant="h5">{userCount}</Typography>
         {map(variantCollection, (item, index) => (
-
             <ListItemButton
-              onClick={() => dispatch(putUserGuessTown(item))}
+              onClick={() =>
+                setVariant(item)
+              }
               key={index}
             >
               <Stack direction="row" spacing={2}>
