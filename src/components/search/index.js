@@ -8,50 +8,51 @@ import {putRandomCoordinates, putRandomTown, putSearchValue, putShowCollection} 
 import Result from "../result";
 import SwipDrawer from "../swipDrawer";
 
-export function Search() {
-  const ref = useRef(null)
-  const StyledTextField = styled(TextField)(() => ({
-    borderRadius: "10px",
-    backgroundColor: theme.palette.background.search,
+
+export const StyledTextField = styled(TextField)(() => ({
+  borderRadius: "10px",
+  backgroundColor: theme.palette.background.search,
+  fontSize: 17,
+  '& label': {
     fontSize: 17,
-    '& label': {
-      fontSize: 17,
-      color: theme.palette.text.additional,
-      '&.Mui-error': {
-        color: theme.palette.error.main,
-      },
-    },
-    '& label.Mui-focused': {
-      fontSize: 17,
-      color: theme.palette.text.main,
-      '&.Mui-error': {
-        color: theme.palette.error.main,
-      },
-    },
-    '& .MuiOutlinedInput-root': {
-      color: theme.palette.text.additional,
-      "&:focused": {
-        color: theme.palette.text.additional,
-      },
-    },
+    color: theme.palette.text.additional,
     '&.Mui-error': {
       color: theme.palette.error.main,
     },
-  }));
-  const StyledButton = styled(Button)(() => ({
-    height: "35px",
-    paddingLeft: "50px",
-    paddingRight: "50px",
-    borderRadius: "50px",
-    textTransform: 'none',
-    backgroundColor: theme.palette.background.button,
-    "&:hover": {
-      "&:hover": {
-        backgroundColor: "#6E42CA",
-      },
+  },
+  '& label.Mui-focused': {
+    fontSize: 17,
+    color: theme.palette.text.main,
+    '&.Mui-error': {
+      color: theme.palette.error.main,
     },
-  }))
+  },
+  '& .MuiOutlinedInput-root': {
+    color: theme.palette.text.additional,
+    "&:focused": {
+      color: theme.palette.text.additional,
+    },
+  },
+  '&.Mui-error': {
+    color: theme.palette.error.main,
+  },
+}));
+const StyledButton = styled(Button)(() => ({
+  height: "35px",
+  paddingLeft: "50px",
+  paddingRight: "50px",
+  borderRadius: "50px",
+  textTransform: 'none',
+  backgroundColor: theme.palette.background.button,
+  "&:hover": {
+    "&:hover": {
+      backgroundColor: "#6E42CA",
+    },
+  },
+}))
 
+export function Search() {
+  const ref = useRef(null)
   const dispatch = useDispatch();
   const favoriteCollection = useSelector(
     (state) => state.counter.favoriteCollection
@@ -127,11 +128,6 @@ export function Search() {
               random
             </StyledButton>
           </Stack>
-        </Grid>
-        <Grid mt={5} container spacing={2}>
-          <Grid item xs={12}>
-            <Result showFavorite={showFavorite}/>
-          </Grid>
         </Grid>
         <SwipDrawer showModal={randomModal} setShowModal={setRandomModal} random={randomModal}/>
       </Grid>

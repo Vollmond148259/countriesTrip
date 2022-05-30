@@ -1,14 +1,10 @@
-import Search from "../src/components/search";
-import {Container} from "@mui/material"
+import Result from "../src/components/result"
 import React from "react";
 
 function Home() {
   return (
     <>
-      <Container>
-        <Search/>
-      </Container>
-
+        <Result showFavorite={false}/>
     </>
   )
 }

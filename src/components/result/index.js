@@ -1,5 +1,5 @@
-import React, {useCallback, useDeferredValue, useEffect, useState} from "react";
-import {Box, Button, Grid, Paper, Stack, Typography} from "@mui/material";
+import React, {useCallback,forwardRef, useDeferredValue, useEffect, useState} from "react";
+import {Box, Button,Container, Grid, Paper, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
   putChoiceCoordinates,
@@ -15,6 +15,30 @@ import SwipDrawer from "../swipDrawer";
 import Papa from "papaparse";
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import {StyledTextField} from "../search"
+
+const innerElementType = forwardRef(({style, ...rest}, ref) => {
+  return (
+    <Container>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        marginTop="24px"
+        alignItems="center"
+      >
+          <StyledTextField autoComplete="off"
+            fullWidth
+            variant="outlined"/>
+            </Box>
+      <div
+        ref={ref}
+        style={{...style, height: `${parseFloat(style.height) + 200 * 2}px`}}
+        {...rest}
+      />
+    </Container>
+  )
+});
+innerElementType.displayName="insert"
 
 function Result({showFavorite}) {
 
@@ -33,7 +57,8 @@ function Result({showFavorite}) {
         )
       }, [])
       return (
-        <Paper elevation={4} key={index} style={style}
+        <Box  style={{...style,top: `${parseFloat(style.top) + 200}px`,height:`${parseFloat(style.height) + 50}px`}}>
+        <Paper elevation={4} 
                sx={{background: "linear-gradient(90deg,#21163B,#15142B)", borderRadius: "10px"}}>
           <Grid pl={2} pr={2} container spacing={{xs: 0.5, sm: 2}} justifyContent="space-between">
             <Grid m={1} item xs={10} sm={3} md={2} lg={2}>
@@ -88,6 +113,7 @@ function Result({showFavorite}) {
             </Stack>
           </Grid>
         </Paper>
+        </Box>
       )
     }
   ;
@@ -121,7 +147,7 @@ function Result({showFavorite}) {
         sx={{
           ml: 1,
           width: "100%",
-          height: "70vh",
+          height: "98vh",
           maxWidth: "100vw",
         }}
       >
@@ -131,7 +157,8 @@ function Result({showFavorite}) {
               sx={{background: "background.default"}}
               height={height}
               itemCount={countries.length}
-              itemSize={210}
+              innerElementType={innerElementType}
+              itemSize={200}
               width={width}
             >
               {RenderRow}
