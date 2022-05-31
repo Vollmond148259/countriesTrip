@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import {Button} from "@mui/material";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -12,6 +12,7 @@ import {StyledButton, StyledList} from "../../elements"
 export default function SwipDrawer({showModal, setShowModal, random, getRandomTown}) {
 
   let coordinates = []
+  const [toggleStreet, setToggleStreet] = useState(!false)
   const allCollection = useSelector((state) => state.counter.collection)
   const choiceCoordinates = useSelector((state) => state.counter.coordinates)
   const randomCoordinates = useSelector((state) => state.counter.randomCoordinates)
@@ -23,10 +24,15 @@ export default function SwipDrawer({showModal, setShowModal, random, getRandomTo
     coordinates = choiceCoordinates
   }
 
+  useEffect(() => {
+    setToggleStreet(!toggleStreet)
+  }, [randomCoordinates])
+
   const list = () => (
     <StyledList>
       {random && <LitleCityList/>}
       {random && <StyledButton variant="contained" onClick={() => {
+        setToggleStreet(!toggleStreet)
         getRandomTown(allCollection)
       }}>refresh</StyledButton>}
       {!random && <Button fullWidth onClick={() => {
@@ -36,7 +42,7 @@ export default function SwipDrawer({showModal, setShowModal, random, getRandomTo
           setView("street")
         }} variant="contained">show street</Button>
         :
-        <GoogleStreet coordinates={randomCoordinates}/>
+        <GoogleStreet coordinates={coordinates} toggleStreet={toggleStreet}/>
       }
       <Box
         role="presentation"

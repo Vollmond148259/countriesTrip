@@ -17,29 +17,31 @@ import Navigate from "../search"
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
+
+const innerElementType = forwardRef(({style, ...rest}, ref) => {
+  return (
+    <Container>
+      <Navigate/>
+      <div
+        ref={ref}
+        style={{...style, height: `${parseFloat(style.height) + 300 * 2}px`}}
+        {...rest}
+      />
+    </Container>
+  )
+});
+innerElementType.displayName = "insert"
+
 function Result() {
   const dispatch = useDispatch();
+  const [showFavorite, setShowFavorite] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const searchingValue = useSelector((state) => state.counter.searchValue);
   const allCollection = useSelector((state) => state.counter.collection);
   const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
   const countries = useSelector((state) => state.counter.showCollection);
   const defferedValue = useDeferredValue(searchingValue);
-  const [showFavorite, setShowFavorite] = useState(false);
 
-  const innerElementType = forwardRef(({style, ...rest}, ref) => {
-    return (
-      <Container>
-        <Navigate setShowFavorite={setShowFavorite}/>
-        <div
-          ref={ref}
-          style={{...style, height: `${parseFloat(style.height) + 300 * 2}px`}}
-          {...rest}
-        />
-      </Container>
-    )
-  });
-  innerElementType.displayName = "insert"
 
   const RenderRow = ({index, style}) => {
       const light = useCallback((str) => {

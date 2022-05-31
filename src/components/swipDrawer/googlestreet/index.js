@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactStreetview from 'react-streetview';
 
-function GoogleStreet({coordinates}) {
+
+function GoogleStreet({coordinates, toggleStreet}) {
   const lat = Number(coordinates[0])
   const lng = Number(coordinates[1])
   const googleMapsApiKey = 'AIzaSyA4bN_JLbgMsrsaspEm1ebHDiTNNvE7DTA';
@@ -14,17 +15,21 @@ function GoogleStreet({coordinates}) {
     showRoadLabels: false,
   };
   return (
-    <div style={{
-      width: '100vw',
-      height: '50vh',
-    }}>
-      <ReactStreetview
-        apiKey={googleMapsApiKey}
-        unique={streetViewPanoramaOptions.unique}
-        streetViewPanoramaOptions={streetViewPanoramaOptions}
-      />
-    </div>
-  );
+    <>
+      <div style={{
+        width: '100vw',
+        height: '50vh',
+      }}>
+        {toggleStreet && <ReactStreetview
+          apiKey={googleMapsApiKey}
+          unique={streetViewPanoramaOptions.unique}
+          streetViewPanoramaOptions={streetViewPanoramaOptions}
+        />}
+      </div>
+    </>
+
+  )
+    ;
 }
 
 export default GoogleStreet

@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, {memo, useRef, useState} from "react";
 import {Grid, Stack} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {StyledButton, StyledTextField} from "../../elements"
-import {putRandomCoordinates, putRandomTown, putShowCollection} from "../../redux/slice/slice";
+import {putRandomCoordinates, putRandomTown, putSearchValue, putShowCollection} from "../../redux/slice/slice";
 import SwipDrawer from "../swipDrawer";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -10,9 +10,11 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export function Navigate({setShowFavorite}) {
   const dispatch = useDispatch();
+  const searchingValue = useSelector((state) => state.counter.searchValue)
   const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
   const allCollection = useSelector((state) => state.counter.collection);
   const [randomModal, setRandomModal] = useState(false)
+  const valueRef = useRef(searchingValue)
 
   function getRandomTown(array) {
     const randomCity = Math.floor(Math.random() * allCollection.length)
@@ -31,6 +33,7 @@ export function Navigate({setShowFavorite}) {
         <Grid item xs={12}>
           <StyledTextField
             autoComplete="off"
+            inputRef={valueRef}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -38,7 +41,8 @@ export function Navigate({setShowFavorite}) {
                 </InputAdornment>
               ),
             }}
-            onInput={() => {
+            onChange={() => {
+              dispatch(putSearchValue(event.target.value));
             }}
             fullWidth
             variant="outlined"
@@ -80,4 +84,4 @@ export function Navigate({setShowFavorite}) {
   );
 }
 
-export default Navigate;
+export default memo(Navigate);
