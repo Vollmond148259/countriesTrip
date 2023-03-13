@@ -1,4 +1,4 @@
-import {createTheme} from '@mui/material';
+import { createTheme } from '@mui/material';
 // import IBMPlexSansRegular from "../public/fonts/IBM_Plex_Sans/IBM_Plex_Sans/IBMPlexSans-Bold.ttf"
 
 const theme = createTheme({
@@ -17,7 +17,6 @@ const theme = createTheme({
     primary: {
       main: '#14072E',
       light: '#0059B2',
-
     },
     common: {
       text: '#1A76D2',
@@ -59,12 +58,12 @@ const theme = createTheme({
       icon: '#1DB45A',
     },
     textfield: {
-      main: "#22163B",
+      main: '#22163B',
     },
     background: {
       skeleton: '#071B2F',
-      search: "#21163B",
-      button: "#21163B",
+      search: '#21163B',
+      button: '#21163B',
       //paper: '#22163B',
       default: '#0A081E',
       secondary: 'rgba(10, 25, 41, 0.5)',
@@ -95,15 +94,16 @@ const theme = createTheme({
     button: {
       fontWeight: 500,
       fontSize: 16,
-    }
+    },
   },
 
   components: {
     MuiTextField: {
       styleOverrides: {
         root: {
+          fontSize: 20,
           label: {
-            fontSize: 17,
+            fontSize: 20,
           },
         },
       },
@@ -111,24 +111,24 @@ const theme = createTheme({
     MuiButton: {
       variants: [
         {
-          props: {variant: 'outlined'},
+          props: { variant: 'outlined' },
           style: {
             minWidth: '170px',
             maxWidth: '200px',
             backgroundColor: '#15142B',
-            '&:hover': {backgroundColor: '#6E42CA', color: "white"},
+            '&:hover': { backgroundColor: '#6E42CA', color: 'white' },
             borderRadius: 6,
             borderColor: '#6E42CA',
-            color: "#6E42CA",
+            color: '#6E42CA',
             textTransform: 'none',
             zIndex: 0,
           },
         },
         {
-          props: {variant: 'containedDialog'},
+          props: { variant: 'containedDialog' },
           style: {
             backgroundColor: '#1A76D2',
-            '&:hover': {backgroundColor: '#0052CC'},
+            '&:hover': { backgroundColor: '#0052CC' },
             borderRadius: 10,
             textTransform: 'none',
             zIndex: 0,
@@ -136,7 +136,6 @@ const theme = createTheme({
         },
       ],
     },
-
   },
 });
 

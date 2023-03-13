@@ -1,26 +1,34 @@
-import {createSlice} from "@reduxjs/toolkit";
-import reject from "lodash/reject"
+import { createSlice } from '@reduxjs/toolkit';
+import reject from 'lodash/reject';
 
 export const counterSlice = createSlice({
-  name: "counter",
+  name: 'counter',
   initialState: {
     userCount: 10,
+    showModal: false,
+    showFavorite: false,
     favoriteCollection: [],
-    userGuessTown: [{city: "1"}],
+    userGuessTown: [{ city: '1' }],
     variantCollection: [],
-    showCollection: [{city: "no", country: "country", lat: "1", lng: "1"}],
-    collection: [{city: "", country: "", lat: "1", lng: "1"}],
-    searchValue: "",
+    showCollection: [{ city: 'no', country: 'country', lat: '1', lng: '1' }],
+    collection: [{ city: '', country: '', lat: '1', lng: '1' }],
+    searchValue: '',
     coordinates: [0, 0],
-    randomTown: [{city: ""}],
+    randomTown: [{ city: '' }],
     randomCoordinates: [0, 0],
   },
   reducers: {
+    setShowModal: (state, action) => {
+      state.showModal = action.payload;
+    },
+    setShowFavorite: (state, action) => {
+      state.showFavorite = action.payload;
+    },
     addToUserCount: (state) => {
-      state.userCount += 1
+      state.userCount += 1;
     },
     takeAwayToUserCount: (state) => {
-      state.userCount -= 2
+      state.userCount -= 2;
     },
     putUserGuessTown: (state, action) => {
       state.userguessTown = action.payload;
@@ -41,7 +49,10 @@ export const counterSlice = createSlice({
       state.favoriteCollection.push(action.payload);
     },
     removeFavoriteCities: (state, action) => {
-      state.favoriteCollection = reject(state.favoriteCollection, action.payload)
+      state.favoriteCollection = reject(
+        state.favoriteCollection,
+        action.payload
+      );
     },
     putShowCollection: (state, action) => {
       state.showCollection = action.payload;
@@ -68,6 +79,8 @@ export const {
   removeFavoriteCities,
   putShowCollection,
   putChoiceCoordinates,
+  setShowFavorite,
+  setShowModal,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

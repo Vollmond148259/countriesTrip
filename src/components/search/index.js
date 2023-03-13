@@ -1,30 +1,39 @@
-import React, {memo, useRef, useState} from "react";
-import {Grid, Stack} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {StyledButton, StyledTextField} from "../../elements"
-import {putRandomCoordinates, putRandomTown, putSearchValue, putShowCollection} from "../../redux/slice/slice";
+import React, { memo, useRef, useState } from "react";
+import { Grid, Stack } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { StyledButton, StyledTextField } from "../../elements";
+import {
+  putRandomCoordinates,
+  putRandomTown,
+  putSearchValue,
+  putShowCollection,
+  setShowFavorite,
+} from "../../redux/slice/slice";
 import SwipDrawer from "../swipDrawer";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
-
-export function Navigate({setShowFavorite}) {
+export function SearchBar() {
   const dispatch = useDispatch();
-  const searchingValue = useSelector((state) => state.counter.searchValue)
-  const favoriteCollection = useSelector((state) => state.counter.favoriteCollection);
+  const searchingValue = useSelector((state) => state.counter.searchValue);
+  const favoriteCollection = useSelector(
+    (state) => state.counter.favoriteCollection
+  );
   const allCollection = useSelector((state) => state.counter.collection);
-  const [randomModal, setRandomModal] = useState(false)
-  const valueRef = useRef(searchingValue)
+  const [randomModal, setRandomModal] = useState(false);
+  const valueRef = useRef(searchingValue);
 
   function getRandomTown(array) {
-    const randomCity = Math.floor(Math.random() * allCollection.length)
-    dispatch(putRandomCoordinates([array[randomCity].lat, array[randomCity].lng]))
-    dispatch(putRandomTown(array[randomCity]))
+    const randomCity = Math.floor(Math.random() * allCollection.length);
+    dispatch(
+      putRandomCoordinates([array[randomCity].lat, array[randomCity].lng])
+    );
+    dispatch(putRandomTown(array[randomCity]));
   }
 
   function handleLoadShowCollection(collection, value) {
     dispatch(putShowCollection(collection));
-    setShowFavorite(value);
+    dispatch(setShowFavorite(value));
   }
 
   return (
@@ -37,7 +46,7 @@ export function Navigate({setShowFavorite}) {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon color="icon"/>
+                  <SearchIcon color="icon" />
                 </InputAdornment>
               ),
             }}
@@ -54,34 +63,35 @@ export function Navigate({setShowFavorite}) {
               onClick={() => {
                 handleLoadShowCollection(allCollection, false);
               }}
-              variant="contained"
-            >
+              variant="contained">
               all
             </StyledButton>
             <StyledButton
               onClick={() => {
-                handleLoadShowCollection(favoriteCollection, true)
+                handleLoadShowCollection(favoriteCollection, true);
               }}
-              variant="contained"
-            >
+              variant="contained">
               selected
             </StyledButton>
             <StyledButton
               onClick={() => {
-                setRandomModal(!randomModal)
+                setRandomModal(!randomModal);
                 getRandomTown(allCollection);
               }}
-              variant="contained"
-            >
+              variant="contained">
               random
             </StyledButton>
           </Stack>
         </Grid>
-        <SwipDrawer showModal={randomModal} setShowModal={setRandomModal} random={randomModal}
-                    getRandomTown={getRandomTown}/>
+        <SwipDrawer
+          showModal={randomModal}
+          setShowModal={setRandomModal}
+          random={randomModal}
+          getRandomTown={getRandomTown}
+        />
       </Grid>
     </>
   );
 }
 
-export default memo(Navigate);
+export default memo(SearchBar);
